@@ -103,24 +103,36 @@ search_data_items(search_terms=c('corn', 'price'), exclude=c('sweet'))
 
 
 # get data
-commodity_desc <- 'CORN'
-year <- '2012'
-state <- 'VA'
+short_desc <- 'CORN - ACRES HARVESTED'
+year <- '2017'
+state <- 'CO'
 url <- paste('http://quickstats.nass.usda.gov/api/api_GET/?',
              'key=', key, 
-             '&commodity_desc=', commodity_desc,
+             '&short_desc=', short_desc,
              '&year__GE=', year,
              '&state_alpha=', state,
+             '&agg_level_desc=COUNTY',
              '&format=JSON', 
              sep='')
+r <- GET(url)
+content(r)
+
 
 # get count of results
+short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
+year <- '2017'
+state <- 'CO'
 url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
              'key=', key, 
-             '&commodity_desc=', commodity_desc,
+             '&short_desc=', short_desc,
              '&year__GE=', year,
              '&state_alpha=', state,
+             '&agg_level_desc=COUNTY',
              sep='')
+r <- GET(url)
+content(r)
+
+
 
 
 # commodity_desc, class_desc, prodn_practice_desc, util_practice_desc, statisticcat_desc, unit_desc
