@@ -121,21 +121,78 @@ content(r)$data[[2]]$county_ansi
 content(r)$data[[2]]$Value
 
 
-
-# get count of results
-short_desc <- 'CORN - ACRES HARVESTED'
+# get count of results all counties in US
+short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
 year <- '2017'
-state <- 'CO'
+granularity <- 'COUNTY'
 url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
              'key=', key, 
              '&short_desc=', short_desc,
              '&year__GE=', year,
-             '&state_alpha=', state,
-             '&agg_level_desc=COUNTY',
+             '&agg_level_desc=', granularity,
              sep='')
 r <- GET(url)
 content(r)
 
+# get count of results all states in US
+short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
+year <- '2017'
+granularity <- 'STATE'
+url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
+             'key=', key, 
+             '&short_desc=', short_desc,
+             '&year__GE=', year,
+             '&agg_level_desc=', granularity,
+             sep='')
+r <- GET(url)
+content(r)
+
+# get count of results all counties in a state
+short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
+year <- '2017'
+state <- '08'
+granularity <- 'COUNTY'
+url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
+             'key=', key, 
+             '&short_desc=', short_desc,
+             '&year__GE=', year,
+             '&state_fips_code=', state,
+             '&agg_level_desc=', granularity,
+             sep='')
+r <- GET(url)
+content(r)
+
+# get count of state results a single state
+short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
+year <- '2017'
+state <- '08'
+granularity <- 'STATE'
+url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
+             'key=', key, 
+             '&short_desc=', short_desc,
+             '&year__GE=', year,
+             '&state_fips_code=', state,
+             '&agg_level_desc=', granularity,
+             sep='')
+r <- GET(url)
+content(r)
+
+# get count of county results a single county
+short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
+year <- '2017'
+state <- '08'
+county <- '069'
+granularity <- 'COUNTY'
+url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
+             'key=', key, 
+             '&short_desc=', short_desc,
+             '&year__GE=', year,
+             '&state_fips_code=', state,
+             '&county_ansi=', county,
+             '&agg_level_desc=', granularity,
+             sep='')
+r <- GET(url)
+content(r)
 
 # TODO:
 # 1. accept 5 digit fips code for single county
