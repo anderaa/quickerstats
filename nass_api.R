@@ -103,7 +103,7 @@ search_data_items(search_terms=c('corn', 'price'), exclude=c('sweet'))
 
 
 # get data
-short_desc <- 'CORN - ACRES HARVESTED'
+short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
 year <- '2017'
 state <- 'CO'
 url <- paste('http://quickstats.nass.usda.gov/api/api_GET/?',
@@ -117,9 +117,13 @@ url <- paste('http://quickstats.nass.usda.gov/api/api_GET/?',
 r <- GET(url)
 content(r)
 
+content(r)$data[[2]]$county_ansi
+content(r)$data[[2]]$Value
+
+
 
 # get count of results
-short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
+short_desc <- 'CORN - ACRES HARVESTED'
 year <- '2017'
 state <- 'CO'
 url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
@@ -133,36 +137,11 @@ r <- GET(url)
 content(r)
 
 
-
-
-# commodity_desc, class_desc, prodn_practice_desc, util_practice_desc, statisticcat_desc, unit_desc
-# short_desc
-param <- 'short_desc'
-url <- paste('http://quickstats.nass.usda.gov/api/get_param_values/?',
-             'key=', key,
-             '&param=', param,
-             sep='')
-r <- GET(url)
-content(r)
-
-param <- 'group_desc'
-url <- paste('http://quickstats.nass.usda.gov/api/get_param_values/?',
-             'key=', key,
-             '&source_desc=CENSUS',
-             '&sector_desc=CROPS',
-             '&param=', param,
-             sep='')
-r <- GET(url)
-content(r)
-
-param <- 'group_desc'
-url <- paste('http://quickstats.nass.usda.gov/api/get_param_values/?',
-             'key=', key,
-             '&source_desc=CENSUS',
-             '&sector_desc=ECONOMICS',
-             '&param=', param,
-             sep='')
-r <- GET(url)
-content(r)
-
+# TODO:
+# 1. accept 5 digit fips code for single county
+# 2. accept 2 digit fips code for single state 
+#    A. granularity = state
+#    B. granularity = county
+# 3. accept call for all state with state granularity
+# 4. accept call for all counties with county granularity
 
