@@ -98,6 +98,54 @@ search_data_items <- function(search_terms, exclude=c()) {
   return(results)
 }
 
+
+get_county_item_count <- function(key, year, data_item, fips='all') {
+  base_url <- 'http://quickstats.nass.usda.gov/api/get_counts/?'
+  # get all counties in US
+  if (fips == 'all') {
+    url <- paste(base_url,
+                 'key=', key, 
+                 '&short_desc=', short_desc,
+                 '&year__GE=', year,
+                 '&agg_level_desc=COUNTY',
+                 sep='')
+  }
+  # get all counties in a state
+  else if (nchar(fips) == 2) {
+    url <- paste(base_url,
+                 'key=', key, 
+                 '&short_desc=', data_item,
+                 '&year__GE=', year,
+                 '&state_fips_code=', fips,
+                 '&agg_level_desc=COUNTY',
+                 sep='')
+  }
+  # get a specific county
+  else if (nchar(fips) == 5) {
+    state_fips <- substr(fips, 1, 2)
+    county_fips <- substr(fips, 3, 5)
+    url <- paste(base_url,
+                 'key=', key, 
+                 '&short_desc=', short_desc,
+                 '&year__GE=', year,
+                 '&state_fips_code=', state_fips,
+                 '&county_ansi=', county_fips,
+                 '&agg_level_desc=COUNTY',
+                 sep='')
+  }
+  else {
+    stop('The fips argument must be "all" or a 2-digit state fips or a 5-digit county fips')
+  }
+  
+  r <- GET(url)
+  return(content(r)$count)
+  
+}
+
+get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069')
+
 search_data_items(search_terms=c('corn', 'harvested'), exclude=c('sweet'))
 search_data_items(search_terms=c('corn', 'price'), exclude=c('sweet'))
 
@@ -132,7 +180,7 @@ url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
              '&agg_level_desc=', granularity,
              sep='')
 r <- GET(url)
-content(r)
+content(r)$count
 
 # get count of results all states in US
 short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
