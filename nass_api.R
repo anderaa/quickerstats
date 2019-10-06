@@ -6,8 +6,6 @@
 library(httr)
 library(readr)
 
-key <- 'D8EECA1B-A77F-3520-9CBE-9E25548F10E4'
-
 
 ########################################################################################################################
 get_param_values <- function(param) {
@@ -258,23 +256,25 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
 ########################################################################################################################
 
 
-search_data_items(search_terms=c('corn', 'harvested'), exclude=c('sweet'))
-search_data_items(search_terms=c('corn', 'price'), exclude=c('sweet'))
-
-get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-
-get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
-get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
-
-get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
-get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
-
-get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-
-get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
-get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+# key <- 'D8EECA1B-A77F-3520-9CBE-9E25548F10E4'
+# 
+# search_data_items(search_terms=c('corn', 'harvested'), exclude=c('sweet'))
+# search_data_items(search_terms=c('corn', 'price'), exclude=c('sweet'))
+# 
+# get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+# get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+# 
+# get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+# get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+# 
+# get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
+# get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
+# 
+# get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+# get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+# 
+# get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+# get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 
 
 # API documentation here: https://quickstats.nass.usda.gov/api
