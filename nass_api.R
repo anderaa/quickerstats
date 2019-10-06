@@ -47,11 +47,12 @@
 
 
 library(httr)
+library(readr)
 
 
 key <- 'D8EECA1B-A77F-3520-9CBE-9E25548F10E4'
 
-
+#######################################################################################################################
 get_param_values <- function(param) {
   # return all values param can take 
   param <- 'short_desc'
@@ -62,8 +63,9 @@ get_param_values <- function(param) {
   r <- GET(url)
   content(r)
 }
+#######################################################################################################################
 
-
+#######################################################################################################################
 search_data_items <- function(search_terms, exclude=c()) {
   # Get available data items based on search terms.
   # Args:
@@ -102,15 +104,17 @@ search_data_items <- function(search_terms, exclude=c()) {
 
   return(results)
 }
+#######################################################################################################################
 
-
-get_county_item_count <- function(key, year, data_item, fips='all') {
+#######################################################################################################################
+get_county_item_count <- function(key, year, data_item, fips='all', domain='TOTAL') {
   # Get the count of values that exist for the specified query.
   # Args:
   #   key: Your NASS API key.
-  #   year: Must be a census year (e.g. 2012, 2017)
+  #   year: Must be a census year (e.g. 2012, 2017).
   #   data_item: The long description of the desired series. Use search_data_items function to find one.
-  #   fips: Must be 'all', a 2-digit state fips, or a 5-digit county fips
+  #   fips: Must be 'all', a 2-digit state fips, or a 5-digit county fips.
+  #   domain: A modifier on data_item, some characterstic (e.g. size categories of operations), use 'all' to get all.
   # Returns:
   #   The count.
   
@@ -121,6 +125,12 @@ get_county_item_count <- function(key, year, data_item, fips='all') {
                     '&agg_level_desc=COUNTY',
                     '&source_desc=CENSUS',
                     sep='')
+  
+  # add specific domain if needed
+  if (domain != 'all') {
+    base_url <- paste(base_url, '&domain_desc=', domain, sep='')
+  }
+  
   # get all counties in US
   if (fips == 'all') {
     url <- base_url
@@ -142,6 +152,48 @@ get_county_item_count <- function(key, year, data_item, fips='all') {
   r <- GET(url)
   return(content(r)$count)
 }
+#######################################################################################################################
+
+#######################################################################################################################
+get_state_item_count <- function(key, year, data_item, fips='all', domain='TOTAL') {
+  # Get the count of values that exist for the specified query.
+  # Args:
+  #   key: Your NASS API key.
+  #   year: Must be a census year (e.g. 2012, 2017)
+  #   data_item: The long description of the desired series. Use search_data_items function to find one.
+  #   fips: Must be 'all' or a 2-digit state fips
+  # Returns:
+  #   The count.
+  
+  base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
+                    'key=', key, 
+                    '&short_desc=', data_item,
+                    '&year__GE=', year,
+                    '&agg_level_desc=STATE',
+                    '&source_desc=CENSUS',
+                    sep='')
+  
+  # add specific domain if needed
+  if (domain != 'all') {
+    base_url <- paste(base_url, '&domain_desc=', domain, sep='')
+  }
+  
+  # get all counties in US
+  if (fips == 'all') {
+    url <- base_url
+  }
+  # get all counties in a state
+  else if (nchar(fips) == 2) {
+    url <- paste(base_url, '&state_fips_code=', fips, sep='')
+  }
+  else {
+    stop('The fips argument must be "all" or a 2-digit state fips')
+  }
+  # make the request
+  r <- GET(url)
+  return(content(r)$count)
+}
+#######################################################################################################################
 
 
 search_data_items(search_terms=c('corn', 'harvested'), exclude=c('sweet'))
@@ -149,7 +201,10 @@ search_data_items(search_terms=c('corn', 'price'), exclude=c('sweet'))
 
 get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
-get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069')
+get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
+
+get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 
 
 
@@ -158,99 +213,17 @@ get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVEST
 short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
 year <- '2017'
 state <- 'CO'
+domain <- 'TOTAL'
 url <- paste('http://quickstats.nass.usda.gov/api/api_GET/?',
              'key=', key, 
              '&short_desc=', short_desc,
              '&year__GE=', year,
              '&state_alpha=', state,
-             '&agg_level_desc=COUNTY',
-             '&format=JSON', 
+             '&domain_desc=', domain,
+             '&agg_level_desc=STATE',
+             '&source_desc=CENSUS',
+             '&format=CSV', 
              sep='')
 r <- GET(url)
-content(r)
-
-content(r)$data[[2]]$county_ansi
-content(r)$data[[2]]$Value
-
-
-# get count of results all counties in US
-short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
-year <- '2017'
-granularity <- 'COUNTY'
-url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
-             'key=', key, 
-             '&short_desc=', short_desc,
-             '&year__GE=', year,
-             '&agg_level_desc=', granularity,
-             sep='')
-r <- GET(url)
-content(r)$count
-
-# get count of results all states in US
-short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
-year <- '2017'
-granularity <- 'STATE'
-url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
-             'key=', key, 
-             '&short_desc=', short_desc,
-             '&year__GE=', year,
-             '&agg_level_desc=', granularity,
-             sep='')
-r <- GET(url)
-content(r)
-
-# get count of results all counties in a state
-short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
-year <- '2017'
-state <- '08'
-granularity <- 'COUNTY'
-url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
-             'key=', key, 
-             '&short_desc=', short_desc,
-             '&year__GE=', year,
-             '&state_fips_code=', state,
-             '&agg_level_desc=', granularity,
-             sep='')
-r <- GET(url)
-content(r)
-
-# get count of state results a single state
-short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
-year <- '2017'
-state <- '08'
-granularity <- 'STATE'
-url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
-             'key=', key, 
-             '&short_desc=', short_desc,
-             '&year__GE=', year,
-             '&state_fips_code=', state,
-             '&agg_level_desc=', granularity,
-             sep='')
-r <- GET(url)
-content(r)
-
-# get count of county results a single county
-short_desc <- 'CORN, GRAIN - ACRES HARVESTED'
-year <- '2017'
-state <- '08'
-county <- '069'
-granularity <- 'COUNTY'
-url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
-             'key=', key, 
-             '&short_desc=', short_desc,
-             '&year__GE=', year,
-             '&state_fips_code=', state,
-             '&county_ansi=', county,
-             '&agg_level_desc=', granularity,
-             sep='')
-r <- GET(url)
-content(r)
-
-# TODO:
-# 1. accept 5 digit fips code for single county
-# 2. accept 2 digit fips code for single state 
-#    A. granularity = state
-#    B. granularity = county
-# 3. accept call for all state with state granularity
-# 4. accept call for all counties with county granularity
+df <- content(r)
 
