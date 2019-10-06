@@ -65,7 +65,12 @@ get_param_values <- function(param) {
 
 
 search_data_items <- function(search_terms, exclude=c()) {
-  # return all data items that contain all search terms and none of the exclude terms
+  # Get available data items based on search terms.
+  # Args:
+  #   search_terms: A vector of search terms. Each result will include all terms.
+  #   exclude: A vector of search terms to exclude. No result will have any of these.
+  # Returns:
+  #   A list of all search results.
   
   items <- get_param_values(param='short_desc')
   results <- c()
@@ -100,54 +105,53 @@ search_data_items <- function(search_terms, exclude=c()) {
 
 
 get_county_item_count <- function(key, year, data_item, fips='all') {
-  base_url <- 'http://quickstats.nass.usda.gov/api/get_counts/?'
+  # Get the count of values that exist for the specified query.
+  # Args:
+  #   key: Your NASS API key.
+  #   year: Must be a census year (e.g. 2012, 2017)
+  #   data_item: The long description of the desired series. Use search_data_items function to find one.
+  #   fips: Must be 'all', a 2-digit state fips, or a 5-digit county fips
+  # Returns:
+  #   The count.
+  
+  base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
+                    'key=', key, 
+                    '&short_desc=', data_item,
+                    '&year__GE=', year,
+                    '&agg_level_desc=COUNTY',
+                    '&source_desc=CENSUS',
+                    sep='')
   # get all counties in US
   if (fips == 'all') {
-    url <- paste(base_url,
-                 'key=', key, 
-                 '&short_desc=', short_desc,
-                 '&year__GE=', year,
-                 '&agg_level_desc=COUNTY',
-                 sep='')
+    url <- base_url
   }
   # get all counties in a state
   else if (nchar(fips) == 2) {
-    url <- paste(base_url,
-                 'key=', key, 
-                 '&short_desc=', data_item,
-                 '&year__GE=', year,
-                 '&state_fips_code=', fips,
-                 '&agg_level_desc=COUNTY',
-                 sep='')
+    url <- paste(base_url, '&state_fips_code=', fips, sep='')
   }
   # get a specific county
   else if (nchar(fips) == 5) {
     state_fips <- substr(fips, 1, 2)
     county_fips <- substr(fips, 3, 5)
-    url <- paste(base_url,
-                 'key=', key, 
-                 '&short_desc=', short_desc,
-                 '&year__GE=', year,
-                 '&state_fips_code=', state_fips,
-                 '&county_ansi=', county_fips,
-                 '&agg_level_desc=COUNTY',
-                 sep='')
+    url <- paste(base_url, '&state_fips_code=', state_fips, '&county_ansi=', county_fips, sep='')
   }
   else {
     stop('The fips argument must be "all" or a 2-digit state fips or a 5-digit county fips')
   }
-  
+  # make the request
   r <- GET(url)
   return(content(r)$count)
-  
 }
+
+
+search_data_items(search_terms=c('corn', 'harvested'), exclude=c('sweet'))
+search_data_items(search_terms=c('corn', 'price'), exclude=c('sweet'))
 
 get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069')
 
-search_data_items(search_terms=c('corn', 'harvested'), exclude=c('sweet'))
-search_data_items(search_terms=c('corn', 'price'), exclude=c('sweet'))
+
 
 
 # get data
