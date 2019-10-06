@@ -277,7 +277,7 @@ get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTE
 get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 
 
-# Documentation here: https://quickstats.nass.usda.gov/api
+# API documentation here: https://quickstats.nass.usda.gov/api
 #
 # "What" Parameters:
 #   source_desc (Program): Source of data
