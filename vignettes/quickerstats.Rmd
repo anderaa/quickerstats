@@ -1,11 +1,15 @@
 ---
-title: "my-vignette"
+title: "quickerstats"
+author: "Aaron Anderson"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{my-vignette}
+  %\VignetteIndexEntry{quickerstats}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+# Test Heading
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
