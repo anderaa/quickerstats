@@ -2,7 +2,7 @@
 % Please edit documentation in R/nass_api.R
 \name{get_param_values}
 \alias{get_param_values}
-\title{Get all values a parameter can take. See https://quickstats.nass.usda.gov/api for a table of parameter names.}
+\title{Get all values a parameter can take.}
 \usage{
 get_param_values(param)
 }
@@ -13,7 +13,8 @@ get_param_values(param)
 A list of all values that the parameter can take.
 }
 \description{
-Get all values a parameter can take. See https://quickstats.nass.usda.gov/api for a table of parameter names.
+Get all values of a parameters that can be passed in a GET request.
+See \url{https://quickstats.nass.usda.gov/api} for a table of parameter names.
 }
 \examples{
 get_param_values('source_desc')
