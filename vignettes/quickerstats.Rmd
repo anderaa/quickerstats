@@ -41,7 +41,7 @@ https://quickstats.nass.usda.gov/api
 ## Installation and setup
 
 ```
-install.packages('quickerstats')
+devtools::install_github('anderaa/quickerstats', force=TRUE, build_vignettes=TRUE)
 library('quickerstats')
 ```
 
