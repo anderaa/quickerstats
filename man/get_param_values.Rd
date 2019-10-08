@@ -4,9 +4,11 @@
 \alias{get_param_values}
 \title{Get all values a parameter can take.}
 \usage{
-get_param_values(param)
+get_param_values(key, param)
 }
 \arguments{
+\item{key}{Your NASS api key.}
+
 \item{param}{The parameter name.}
 }
 \value{

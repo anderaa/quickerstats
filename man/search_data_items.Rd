@@ -4,9 +4,11 @@
 \alias{search_data_items}
 \title{Get available data items based on search terms.}
 \usage{
-search_data_items(search_terms, exclude = c())
+search_data_items(key, search_terms, exclude = c())
 }
 \arguments{
+\item{key}{Your NASS api key.}
+
 \item{search_terms}{A vector of search terms. Each result will include all terms.}
 
 \item{exclude}{A vector of search terms to exclude. No result will have any of these.}
@@ -18,6 +20,6 @@ A list of all search results.
 Get available data items based on search terms.
 }
 \examples{
-search_data_items(search_terms=c('corn', 'harvested'), exclude=c('sweet'))
-search_data_items(search_terms=c('corn', 'price'), exclude=c())
+search_data_items(key, search_terms=c('corn', 'harvested'), exclude=c('sweet'))
+search_data_items(key, search_terms=c('corn', 'price'), exclude=c())
 }
