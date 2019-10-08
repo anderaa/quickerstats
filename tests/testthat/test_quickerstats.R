@@ -51,3 +51,5 @@ test_that("get_county_data returns objects of correct size and type", {
   expect_equal(nrow(r3), 1)
   expect_true(ncol(r3) > 30)
 })
+
+
