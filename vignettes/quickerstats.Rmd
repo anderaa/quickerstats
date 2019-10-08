@@ -9,7 +9,20 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Test Heading
+# Introduction
+The USDA's National Agricultural Statistics Service collects a wide variety of
+data on US agriculture. They maintain a web tool (Quick Stats, see 
+https://quickstats.nass.usda.gov/) as well as an API 
+(see https://quickstats.nass.usda.gov/api) for accessing the data. In this
+package, we provide functions that make it easy to find and download needed 
+data.
+
+# Quick Start Guide
+
+## Installation
+
+## Functions
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
