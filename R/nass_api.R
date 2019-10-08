@@ -6,12 +6,13 @@
 #' Get all values of a parameters that can be passed in a GET request.
 #' See \url{https://quickstats.nass.usda.gov/api} for a table of parameter names.
 #'
+#' @param key Your NASS api key.
 #' @param param The parameter name.
 #' @return A list of all values that the parameter can take.
 #' @examples
 #' get_param_values('source_desc')
 #' get_param_values('domain_desc')
-get_param_values <- function(param) {
+get_param_values <- function(key, param) {
   param <- 'short_desc'
   url <- paste('http://quickstats.nass.usda.gov/api/get_param_values/?',
                'key=', key,
@@ -25,14 +26,15 @@ get_param_values <- function(param) {
 ########################################################################################################################
 #' Get available data items based on search terms.
 #'
+#' @param key Your NASS api key.
 #' @param search_terms A vector of search terms. Each result will include all terms.
 #' @param exclude A vector of search terms to exclude. No result will have any of these.
 #' @return A list of all search results.
 #' @examples
-#' search_data_items(search_terms=c('corn', 'harvested'), exclude=c('sweet'))
-#' search_data_items(search_terms=c('corn', 'price'), exclude=c())
-search_data_items <- function(search_terms, exclude=c()) {
-  items <- get_param_values(param='short_desc')
+#' search_data_items(key, search_terms=c('corn', 'harvested'), exclude=c('sweet'))
+#' search_data_items(key, search_terms=c('corn', 'price'), exclude=c())
+search_data_items <- function(key, search_terms, exclude=c()) {
+  items <- get_param_values(key, param='short_desc')
   results <- c()
   for (i in 1:length(items[[1]])) {
     # check for any exclude terms
