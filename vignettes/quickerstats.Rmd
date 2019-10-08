@@ -38,18 +38,34 @@ See: <br/>
 https://quickstats.nass.usda.gov/ <br/>
 https://quickstats.nass.usda.gov/api
 
-## Installation
+## Installation and setup
 
 ```
 install.packages('quickerstats')
 library('quickerstats')
 ```
 
+You will need an API key from NASS. Go to https://quickstats.nass.usda.gov/api.
+I recommend storing your key as an environmental variable. To do so, in your
+console type:
+```
+file.edit("~/.Renviron")
+```
+And then add a line to this file:
+```
+NASS_KEY='your_nass_key'
+```
+Save the file, and restart your R session.
+You can now access the variable with:
+```
+key <- Sys.getenv('NASS_KEY')
+```
+
 ## Search for a data item
 
 Search for a data item like this:
 ```
-search_data_items(search_terms=c('corn', 'harvested'), exclude=c('sweet'))
+search_data_items(key=key, search_terms=c('corn', 'harvested'), exclude=c('sweet'))
 ```
 This will give you a list of data items. Each will contain all of the 
 search terms and none of the exclude terms. The exclude argument is optional. A
@@ -93,8 +109,15 @@ Simple pass fips a 5-character FIPS code for the county:
 get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069')
 ```
 
-
-
+## Function documentation
+```
+?get_param_values
+?search_data_items
+?get_county_item_count
+?get_county_data
+?get_state_item_count
+?get_state_data
+```
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
