@@ -12,10 +12,9 @@
 #' @return A list of all values that the parameter can take.
 #' @examples
 #' key <- Sys.getenv('NASS_KEY')
-#' get_param_values('source_desc')
-#' get_param_values('domain_desc')
+#' get_param_values(key, 'source_desc')
+#' get_param_values(key, 'domain_desc')
 get_param_values <- function(key, param) {
-  param <- 'short_desc'
   url <- paste('http://quickstats.nass.usda.gov/api/get_param_values/?',
                'key=', key,
                '&param=', param,
