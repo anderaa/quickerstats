@@ -26,4 +26,5 @@ key <- Sys.getenv('NASS_KEY')
 search_data_items(key, search_terms=c('corn', 'harvested'),
                   exclude=c('sweet'))
 search_data_items(key, search_terms=c('corn', 'price'), exclude=c())
+#' @export
 }

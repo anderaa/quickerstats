@@ -38,6 +38,7 @@ get_param_values <- function(key, param) {
 #' search_data_items(key, search_terms=c('corn', 'harvested'),
 #'                   exclude=c('sweet'))
 #' search_data_items(key, search_terms=c('corn', 'price'), exclude=c())
+#' #' @export
 search_data_items <- function(key, search_terms, exclude=c()) {
   items <- get_param_values(key, param='short_desc')
   results <- c()
@@ -92,6 +93,7 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 #' get_county_item_count(key=key, year=2017,
 #'                       data_item='CORN, GRAIN - ACRES HARVESTED',
 #'                       fips='08069', domain='all')
+#' @export
 get_county_item_count <- function(key, year, data_item, fips='all', domain='TOTAL') {
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
@@ -151,6 +153,7 @@ get_county_item_count <- function(key, year, data_item, fips='all', domain='TOTA
 #' get_county_data(key=key, year=2017,
 #'                 data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069',
 #'                 domain='all')
+#' @export
 get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   # check if any data exists
   if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
@@ -214,6 +217,7 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
 #'                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 #' get_state_item_count(key=key, year=2017,
 #'                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+#' @export
 get_state_item_count <- function(key, year, data_item, fips='all', domain='TOTAL') {
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
@@ -264,6 +268,7 @@ get_state_item_count <- function(key, year, data_item, fips='all', domain='TOTAL
 #'                data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 #' get_state_data(key=key, year=2017,
 #'                data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+#' @export
 get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   # check if any data exists
   if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
