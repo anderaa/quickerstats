@@ -21,6 +21,6 @@ names.
 }
 \examples{
 key <- Sys.getenv('NASS_KEY')
-get_param_values('source_desc')
-get_param_values('domain_desc')
+get_param_values(key, 'source_desc')
+get_param_values(key, 'domain_desc')
 }
