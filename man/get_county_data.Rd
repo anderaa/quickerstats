@@ -26,5 +26,5 @@ Get the data for the specified query for county-level data.
 \examples{
 get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
-get_county_ddta(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
+get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
 }

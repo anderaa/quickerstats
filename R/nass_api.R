@@ -129,7 +129,7 @@ get_county_item_count <- function(key, year, data_item, fips='all', domain='TOTA
 #' @examples
 #' get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 #' get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
-#' get_county_ddta(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
+#' get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
 get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   # check if any data exists
   if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
