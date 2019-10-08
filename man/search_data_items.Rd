@@ -9,9 +9,11 @@ search_data_items(key, search_terms, exclude = c())
 \arguments{
 \item{key}{Your NASS api key.}
 
-\item{search_terms}{A vector of search terms. Each result will include all terms.}
+\item{search_terms}{A vector of search terms. Each result will include all
+terms.}
 
-\item{exclude}{A vector of search terms to exclude. No result will have any of these.}
+\item{exclude}{A vector of search terms to exclude. No result will have any
+of these.}
 }
 \value{
 A list of all search results.
@@ -20,6 +22,8 @@ A list of all search results.
 Get available data items based on search terms.
 }
 \examples{
-search_data_items(key, search_terms=c('corn', 'harvested'), exclude=c('sweet'))
+key <- Sys.getenv('NASS_KEY')
+search_data_items(key, search_terms=c('corn', 'harvested'),
+                  exclude=c('sweet'))
 search_data_items(key, search_terms=c('corn', 'price'), exclude=c())
 }

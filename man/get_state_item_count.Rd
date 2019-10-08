@@ -2,7 +2,8 @@
 % Please edit documentation in R/nass_api.R
 \name{get_state_item_count}
 \alias{get_state_item_count}
-\title{Get the count of values that exist for the specified query for state-level data.}
+\title{Get the count of values that exist for the specified query for state-level
+data.}
 \usage{
 get_state_item_count(key, year, data_item, fips = "all",
   domain = "TOTAL")
@@ -12,19 +13,25 @@ get_state_item_count(key, year, data_item, fips = "all",
 
 \item{year}{Must be a census year (e.g. 2012, 2017).}
 
-\item{data_item}{The long description of the desired series. Use search_data_items function to find one.}
+\item{data_item}{The long description of the desired series. Use
+search_data_items function to find one.}
 
 \item{fips}{Must be 'all' or a 2-digit state fips.}
 
-\item{domain}{A modifier on data_item, some characterstic (e.g. size categories of operations), use 'all' to get all.}
+\item{domain}{A modifier on data_item, some characterstic (e.g. size
+categories of operations), use 'all' to get all.}
 }
 \value{
 The count of values.
 }
 \description{
-Get the count of values that exist for the specified query for state-level data.
+Get the count of values that exist for the specified query for state-level
+data.
 }
 \examples{
-get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+key <- Sys.getenv('NASS_KEY')
+get_state_item_count(key=key, year=2017,
+                     data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+get_state_item_count(key=key, year=2017,
+                     data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 }

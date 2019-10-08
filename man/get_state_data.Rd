@@ -11,19 +11,25 @@ get_state_data(key, year, data_item, fips = "all", domain = "TOTAL")
 
 \item{year}{Must be a census year (e.g. 2012, 2017).}
 
-\item{data_item}{The long description of the desired series. Use search_data_items function to find one.}
+\item{data_item}{The long description of the desired series. Use
+search_data_items function to find one.}
 
 \item{fips}{Must be 'all' or a 2-digit state fips.}
 
-\item{domain}{A modifier on data_item, some characterstic (e.g. size categories of operations), use 'all' to get all.}
+\item{domain}{A modifier on data_item, some characterstic (e.g. size
+categories of operations), use 'all' to get all.}
 }
 \value{
-A tibble df of the requested data, if any exists. Otherwise returns NA.
+A tibble df of the requested data, if any exists. Otherwise returns
+NA.
 }
 \description{
 Get the data for the specified query for state-level data.
 }
 \examples{
-get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+key <- Sys.getenv('NASS_KEY')
+get_state_data(key=key, year=2017,
+               data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+get_state_data(key=key, year=2017,
+               data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 }

@@ -2,7 +2,8 @@
 % Please edit documentation in R/nass_api.R
 \name{get_county_item_count}
 \alias{get_county_item_count}
-\title{Get the count of values that exist for the specified query for county-level data.}
+\title{Get the count of values that exist for the specified query for county-level
+data.}
 \usage{
 get_county_item_count(key, year, data_item, fips = "all",
   domain = "TOTAL")
@@ -12,20 +13,28 @@ get_county_item_count(key, year, data_item, fips = "all",
 
 \item{year}{Must be a census year (e.g. 2012, 2017).}
 
-\item{data_item}{The long description of the desired series. Use search_data_items function to find one.}
+\item{data_item}{The long description of the desired series. Use
+search_data_items function to find one.}
 
 \item{fips}{Must be 'all', a 2-digit state fips, or a 5-digit county fips.}
 
-\item{domain}{A modifier on data_item, some characterstic (e.g. size categories of operations), use 'all' to get all.}
+\item{domain}{A modifier on data_item, some characterstic (e.g. size
+categories of operations), use 'all' to get all.}
 }
 \value{
 The count of values.
 }
 \description{
-Get the count of values that exist for the specified query for county-level data.
+Get the count of values that exist for the specified query for county-level
+data.
 }
 \examples{
-get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
-get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
+key <- Sys.getenv('NASS_KEY')
+get_county_item_count(key=key, year=2017,
+                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+get_county_item_count(key=key, year=2017,
+                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+get_county_item_count(key=key, year=2017,
+                      data_item='CORN, GRAIN - ACRES HARVESTED',
+                      fips='08069', domain='all')
 }

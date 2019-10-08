@@ -16,9 +16,11 @@ A list of all values that the parameter can take.
 }
 \description{
 Get all values of a parameters that can be passed in a GET request.
-See \url{https://quickstats.nass.usda.gov/api} for a table of parameter names.
+See \url{https://quickstats.nass.usda.gov/api} for a table of parameter
+names.
 }
 \examples{
+key <- Sys.getenv('NASS_KEY')
 get_param_values('source_desc')
 get_param_values('domain_desc')
 }
