@@ -4,12 +4,14 @@
 #' Get all values a parameter can take.
 #'
 #' Get all values of a parameters that can be passed in a GET request.
-#' See \url{https://quickstats.nass.usda.gov/api} for a table of parameter names.
+#' See \url{https://quickstats.nass.usda.gov/api} for a table of parameter
+#' names.
 #'
 #' @param key Your NASS api key.
 #' @param param The parameter name.
 #' @return A list of all values that the parameter can take.
 #' @examples
+#' key <- Sys.getenv('NASS_KEY')
 #' get_param_values('source_desc')
 #' get_param_values('domain_desc')
 get_param_values <- function(key, param) {
@@ -18,8 +20,8 @@ get_param_values <- function(key, param) {
                'key=', key,
                '&param=', param,
                sep='')
-  r <- GET(url)
-  return(content(r))
+  r <- httr::GET(url)
+  return(httr::content(r))
 }
 ########################################################################################################################
 
@@ -27,11 +29,15 @@ get_param_values <- function(key, param) {
 #' Get available data items based on search terms.
 #'
 #' @param key Your NASS api key.
-#' @param search_terms A vector of search terms. Each result will include all terms.
-#' @param exclude A vector of search terms to exclude. No result will have any of these.
+#' @param search_terms A vector of search terms. Each result will include all
+#' terms.
+#' @param exclude A vector of search terms to exclude. No result will have any
+#' of these.
 #' @return A list of all search results.
 #' @examples
-#' search_data_items(key, search_terms=c('corn', 'harvested'), exclude=c('sweet'))
+#' key <- Sys.getenv('NASS_KEY')
+#' search_data_items(key, search_terms=c('corn', 'harvested'),
+#'                   exclude=c('sweet'))
 #' search_data_items(key, search_terms=c('corn', 'price'), exclude=c())
 search_data_items <- function(key, search_terms, exclude=c()) {
   items <- get_param_values(key, param='short_desc')
@@ -67,18 +73,26 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 ########################################################################################################################
 
 ########################################################################################################################
-#' Get the count of values that exist for the specified query for county-level data.
+#' Get the count of values that exist for the specified query for county-level
+#' data.
 #'
 #' @param key Your NASS API key.
 #' @param year Must be a census year (e.g. 2012, 2017).
-#' @param data_item The long description of the desired series. Use search_data_items function to find one.
+#' @param data_item The long description of the desired series. Use
+#' search_data_items function to find one.
 #' @param fips Must be 'all', a 2-digit state fips, or a 5-digit county fips.
-#' @param domain A modifier on data_item, some characterstic (e.g. size categories of operations), use 'all' to get all.
+#' @param domain A modifier on data_item, some characterstic (e.g. size
+#' categories of operations), use 'all' to get all.
 #' @return The count of values.
 #' @examples
-#' get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-#' get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
-#' get_county_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
+#' key <- Sys.getenv('NASS_KEY')
+#' get_county_item_count(key=key, year=2017,
+#'                       data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+#' get_county_item_count(key=key, year=2017,
+#'                       data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+#' get_county_item_count(key=key, year=2017,
+#'                       data_item='CORN, GRAIN - ACRES HARVESTED',
+#'                       fips='08069', domain='all')
 get_county_item_count <- function(key, year, data_item, fips='all', domain='TOTAL') {
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
@@ -112,8 +126,8 @@ get_county_item_count <- function(key, year, data_item, fips='all', domain='TOTA
     return(NA)
   }
   # make the request
-  r <- GET(url)
-  return(content(r)$count)
+  r <- httr::GET(url)
+  return(httr::content(r)$count)
 }
 ########################################################################################################################
 
@@ -122,14 +136,22 @@ get_county_item_count <- function(key, year, data_item, fips='all', domain='TOTA
 #'
 #' @param key Your NASS API key.
 #' @param year Must be a census year (e.g. 2012, 2017).
-#' @param data_item The long description of the desired series. Use search_data_items function to find one.
+#' @param data_item The long description of the desired series. Use
+#' search_data_items function to find one.
 #' @param fips Must be 'all', a 2-digit state fips, or a 5-digit county fips.
-#' @param domain A modifier on data_item, some characterstic (e.g. size categories of operations), use 'all' to get all.
-#' @return A tibble df of the requested data, if any exists. Otherwise returns NA.
+#' @param domain A modifier on data_item, some characterstic (e.g. size
+#' categories of operations), use 'all' to get all.
+#' @return A tibble df of the requested data, if any exists. Otherwise returns
+#' NA.
 #' @examples
-#' get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-#' get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
-#' get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069', domain='all')
+#' key <- Sys.getenv('NASS_KEY')
+#' get_county_data(key=key, year=2017,
+#'                 data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+#' get_county_data(key=key, year=2017,
+#'                 data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+#' get_county_data(key=key, year=2017,
+#'                 data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069',
+#'                 domain='all')
 get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   # check if any data exists
   if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
@@ -170,23 +192,29 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
     return(NA)
   }
   # make the request
-  r <- GET(url)
-  return(content(r))
+  r <- httr::GET(url)
+  return(httr::content(r))
 }
 ########################################################################################################################
 
 ########################################################################################################################
-#' Get the count of values that exist for the specified query for state-level data.
+#' Get the count of values that exist for the specified query for state-level
+#' data.
 #'
 #' @param key Your NASS API key.
 #' @param year Must be a census year (e.g. 2012, 2017).
-#' @param data_item The long description of the desired series. Use search_data_items function to find one.
+#' @param data_item The long description of the desired series. Use
+#' search_data_items function to find one.
 #' @param fips Must be 'all' or a 2-digit state fips.
-#' @param domain A modifier on data_item, some characterstic (e.g. size categories of operations), use 'all' to get all.
+#' @param domain A modifier on data_item, some characterstic (e.g. size
+#' categories of operations), use 'all' to get all.
 #' @return The count of values.
 #' @examples
-#' get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-#' get_state_item_count(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+#' key <- Sys.getenv('NASS_KEY')
+#' get_state_item_count(key=key, year=2017,
+#'                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+#' get_state_item_count(key=key, year=2017,
+#'                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 get_state_item_count <- function(key, year, data_item, fips='all', domain='TOTAL') {
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
@@ -214,8 +242,8 @@ get_state_item_count <- function(key, year, data_item, fips='all', domain='TOTAL
     return(NA)
   }
   # make the request
-  r <- GET(url)
-  return(content(r)$count)
+  r <- httr::GET(url)
+  return(httr::content(r)$count)
 }
 ########################################################################################################################
 
@@ -224,13 +252,19 @@ get_state_item_count <- function(key, year, data_item, fips='all', domain='TOTAL
 #'
 #' @param key Your NASS API key.
 #' @param year Must be a census year (e.g. 2012, 2017).
-#' @param data_item The long description of the desired series. Use search_data_items function to find one.
+#' @param data_item The long description of the desired series. Use
+#' search_data_items function to find one.
 #' @param fips Must be 'all' or a 2-digit state fips.
-#' @param domain A modifier on data_item, some characterstic (e.g. size categories of operations), use 'all' to get all.
-#' @return A tibble df of the requested data, if any exists. Otherwise returns NA.
+#' @param domain A modifier on data_item, some characterstic (e.g. size
+#' categories of operations), use 'all' to get all.
+#' @return A tibble df of the requested data, if any exists. Otherwise returns
+#' NA.
 #' @examples
-#' get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-#' get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+#' key <- Sys.getenv('NASS_KEY')
+#' get_state_data(key=key, year=2017,
+#'                data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+#' get_state_data(key=key, year=2017,
+#'                data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   # check if any data exists
   if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
@@ -264,17 +298,7 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
     stop('The fips argument must be "all" or a 2-digit state fips')
   }
   # make the request
-  r <- GET(url)
-  return(content(r))
+  r <- httr::GET(url)
+  return(httr::content(r))
 }
 ########################################################################################################################
-
-# TODO: delete these lines
-# key <- 'D8EECA1B-A77F-3520-9CBE-9E25548F10E4'
-# devtools::document()
-# ?get_param_values
-# ?search_data_items
-# ?get_county_item_count
-# ?get_county_data
-# ?get_state_item_count
-# ?get_state_data
