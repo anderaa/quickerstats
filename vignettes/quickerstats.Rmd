@@ -73,6 +73,11 @@ typical workflow would be to start broad, view results, then incrementally
 narrow your search using both arguments. Note that the search terms are not case
 sensitive - the function handles this automatically.
 
+You can also retrieve options associated with a data item:
+```
+get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
+```
+
 ## Retrieve data
 Once you have found your desired data item, you can pull data in one of five 
 ways:
@@ -111,8 +116,8 @@ get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', f
 
 ## Function documentation
 ```
-?get_param_values
 ?search_data_items
+?get_options
 ?get_county_item_count
 ?get_county_data
 ?get_state_item_count

@@ -4,12 +4,24 @@
 \alias{get_param_values}
 \title{Get all values a parameter can take.}
 \usage{
-get_param_values(key, param)
+get_param_values(key, param, short_desc = NA, source_desc = NA,
+  year = NA, agg_level_desc = NA)
 }
 \arguments{
 \item{key}{Your NASS api key.}
 
-\item{param}{The parameter name.}
+\item{param}{The parameter name to get values of.}
+
+\item{short_desc}{The short_desc for which to get possible values of the
+param.}
+
+\item{source_desc}{The source_desc for which to get possible values of the
+param.}
+
+\item{year}{The year for which to get possible values of param.}
+
+\item{agg_level_desc}{The agg_level_desc for which to get possible values of
+param.}
 }
 \value{
 A list of all values that the parameter can take.
@@ -18,9 +30,4 @@ A list of all values that the parameter can take.
 Get all values of a parameters that can be passed in a GET request.
 See \url{https://quickstats.nass.usda.gov/api} for a table of parameter
 names.
-}
-\examples{
-key <- Sys.getenv('NASS_KEY')
-get_param_values(key, 'source_desc')
-get_param_values(key, 'domain_desc')
 }

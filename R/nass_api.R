@@ -8,20 +8,53 @@
 #' names.
 #'
 #' @param key Your NASS api key.
-#' @param param The parameter name.
+#' @param param The parameter name to get values of.
+#' @param short_desc The short_desc for which to get possible values of the
+#' param.
+#' @param source_desc The source_desc for which to get possible values of the
+#' param.
+#' @param year The year for which to get possible values of param.
+#' @param agg_level_desc The agg_level_desc for which to get possible values of
+#' param.
 #' @return A list of all values that the parameter can take.
 #' @examples
 #' key <- Sys.getenv('NASS_KEY')
-#' get_param_values(key, 'source_desc')
-#' get_param_values(key, 'domain_desc')
-#' @export
-get_param_values <- function(key, param) {
+#' get_param_values(key=key, param='short_desc')
+#' get_param_values(key=key, param='year',
+#'                  short_desc=''CORN, GRAIN - ACRES HARVESTED',
+#'                  source_desc='CENSUS')
+get_param_values <- function(key,
+                             param,
+                             short_desc=NA,
+                             source_desc=NA,
+                             year=NA,
+                             agg_level_desc=NA) {
+
   url <- paste('http://quickstats.nass.usda.gov/api/get_param_values/?',
                'key=', key,
                '&param=', param,
                sep='')
+
+  if (!is.na(short_desc)) {
+    url <- paste(url, '&short_desc=', short_desc, sep='')
+  }
+  if (!is.na(source_desc)) {
+    url <- paste(url, '&source_desc=', source_desc, sep='')
+  }
+  if (!is.na(year)) {
+    url <- paste(url, '&year=', year, sep='')
+  }
+  if (!is.na(agg_level_desc)) {
+    url <- paste(url, '&agg_level_desc=', agg_level_desc, sep='')
+  }
+
   r <- httr::GET(url)
-  return(httr::content(r))
+  items <- httr::content(r)
+  results <- c()
+  for (i in 1:length(items[[1]])) {
+    results <- c(results, items[[1]][[i]][[1]])
+  }
+  return(results)
 }
 ################################################################################
 
@@ -47,7 +80,7 @@ search_data_items <- function(key, search_terms, exclude=c()) {
     # check for any exclude terms
     skip <- FALSE
     for (term in exclude) {
-      if (grepl(toupper(term), items[[1]][[i]][[1]], fixed=TRUE)) {
+      if (grepl(toupper(term), items[i], fixed=TRUE)) {
         skip <- TRUE
         break
       }
@@ -59,13 +92,13 @@ search_data_items <- function(key, search_terms, exclude=c()) {
     # check for all search terms
     matches <- 0
     for (term in search_terms) {
-      if (grepl(toupper(term), items[[1]][[i]][[1]], fixed=TRUE)) {
+      if (grepl(toupper(term), items[i], fixed=TRUE)) {
         matches <- matches + 1
       }
     }
     # if all search terms were present, add data item to results
     if (matches == length(search_terms)) {
-      results <- c(results, items[[1]][[i]][[1]])
+      results <- c(results, items[i])
     }
   }
 
@@ -314,4 +347,60 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   r <- httr::GET(url)
   return(httr::content(r))
 }
-########################################################################################################################
+################################################################################
+
+################################################################################
+#' Get the parameter options available for some short_desc value.
+#'
+#' @param key Your NASS API key.
+#' @param short_desc The short_desc (data item) string to get options for.
+#' @return A df of the unique combinations of other paramters that are
+#' available.
+#' @examples
+#' key <- Sys.getenv('NASS_KEY')
+#' get_options(key=key, short_desc='CORN, GRAIN - ACRES HARVESTED')
+#' @export
+get_options <- function(key, short_desc) {
+  # sorry about the nesting!
+  print('Retrieving options...')
+  combos <- list()
+  possible_sources <- get_param_values(key=key,
+                                       param='source_desc',
+                                       short_desc=short_desc)
+  for (source_desc in possible_sources) {
+    possible_years <- get_param_values(key=key,
+                                       param='year',
+                                       short_desc=short_desc,
+                                       source_desc=source_desc)
+    for (year in possible_years) {
+      if (year >= '1997') {
+        possible_agg_level_desc <- get_param_values(key=key,
+                                                    param='agg_level_desc',
+                                                    short_desc=short_desc,
+                                                    source_desc=source_desc,
+                                                    year=year)
+        for (agg_level_desc in possible_agg_level_desc) {
+          if (agg_level_desc == 'COUNTY' | agg_level_desc == 'STATE') {
+            possible_domains <- get_param_values(
+                                  key=key,
+                                  param='domain_desc',
+                                  short_desc=short_desc,
+                                  source_desc=source_desc,
+                                  agg_level_desc=agg_level_desc,
+                                  year=year)
+            for (domain in possible_domains) {
+              combos[[length(combos)+1]] <- c(source_desc,
+                                              year,
+                                              agg_level_desc,
+                                              domain)
+            }
+          }
+        }
+      }
+    }
+  }
+  df <- as.data.frame(do.call(rbind, combos))
+  colnames(df) <- c('source_desc', 'year', 'agg_level_desc', 'domain_desc')
+  return(df)
+}
+################################################################################
