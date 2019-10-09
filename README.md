@@ -112,8 +112,8 @@ get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', f
 
 ## Function documentation
 ```
-?get_param_values
 ?search_data_items
+?get_options
 ?get_county_item_count
 ?get_county_data
 ?get_state_item_count
