@@ -16,12 +16,12 @@
 #' @param year The year for which to get possible values of param.
 #' @param agg_level_desc The agg_level_desc for which to get possible values of
 #' param.
-#' @return A list of all values that the parameter can take.
+#' @return A vector of all values that the parameter can take.
 #' @examples
 #' key <- Sys.getenv('NASS_KEY')
 #' get_param_values(key=key, param='short_desc')
 #' get_param_values(key=key, param='year',
-#'                  short_desc=''CORN, GRAIN - ACRES HARVESTED',
+#'                  short_desc='CORN, GRAIN - ACRES HARVESTED',
 #'                  source_desc='CENSUS')
 get_param_values <- function(key,
                              param,
@@ -76,7 +76,7 @@ get_param_values <- function(key,
 search_data_items <- function(key, search_terms, exclude=c()) {
   items <- get_param_values(key, param='short_desc')
   results <- c()
-  for (i in 1:length(items[[1]])) {
+  for (i in 1:length(items)) {
     # check for any exclude terms
     skip <- FALSE
     for (term in exclude) {
@@ -360,13 +360,13 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
 #' key <- Sys.getenv('NASS_KEY')
 #' get_options(key=key, short_desc='CORN, GRAIN - ACRES HARVESTED')
 #' @export
-get_options <- function(key, short_desc) {
+get_options <- function(key, data_item) {
   # sorry about the nesting!
   print('Retrieving options...')
   combos <- list()
   possible_sources <- get_param_values(key=key,
                                        param='source_desc',
-                                       short_desc=short_desc)
+                                       short_desc=data_item)
   for (source_desc in possible_sources) {
     possible_years <- get_param_values(key=key,
                                        param='year',

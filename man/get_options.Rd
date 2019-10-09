@@ -4,7 +4,7 @@
 \alias{get_options}
 \title{Get the parameter options available for some short_desc value.}
 \usage{
-get_options(key, short_desc)
+get_options(key, data_item)
 }
 \arguments{
 \item{key}{Your NASS API key.}
