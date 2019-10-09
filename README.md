@@ -56,6 +56,11 @@ You can now access the variable with:
 key <- Sys.getenv('NASS_KEY')
 ```
 
+Full documentation is available with:
+```
+vignette('quickerstats')
+```
+
 ## Search for a data item
 
 Search for a data item like this:
@@ -72,7 +77,6 @@ You can also retrieve options associated with a data item:
 ```
 get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
 ```
-
 
 ## Retrieve data
 Once you have found your desired data item, you can pull data in one of five 
