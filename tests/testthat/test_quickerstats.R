@@ -1,10 +1,15 @@
 
 context("Structure of objects returned from valid queries")
 
-key <- Sys.getenv('NASS_KEY')
+skip_if_no_auth <- function() {
+  if (identical(Sys.getenv("NASS_KEY"), "")) {
+    testthat::skip("No authentication available")
+  }
+}
 
 test_that("search_data_items returns objects of correct size and type", {
-  r <- search_data_items(key=key, search_terms=c('corn'))
+  skip_if_no_auth()
+  r <- search_data_items(key=Sys.getenv('NASS_KEY'), search_terms=c('corn'))
   expect_equal(class(r), 'character')
   expect_equal(class(r[1]), 'character')
   expect_equal(length(r[1]), 1)
@@ -12,9 +17,10 @@ test_that("search_data_items returns objects of correct size and type", {
 })
 
 test_that("get_state_data returns objects of correct size and type", {
-  r1 <- get_state_data(key=key, year=2017,
+  skip_if_no_auth()
+  r1 <- get_state_data(key=Sys.getenv('NASS_KEY'), year=2017,
                        data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-  r2 <- get_state_data(key=key, year=2017,
+  r2 <- get_state_data(key=Sys.getenv('NASS_KEY'), year=2017,
                        data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
   expect_equal(class(r1)[1], 'spec_tbl_df')
   expect_true(nrow(r1) > 20 & nrow(r1) < 55)
@@ -25,11 +31,12 @@ test_that("get_state_data returns objects of correct size and type", {
 })
 
 test_that("get_county_data returns objects of correct size and type", {
-  r1 <- get_county_data(key=key, year=2017,
+  skip_if_no_auth()
+  r1 <- get_county_data(key=Sys.getenv('NASS_KEY'), year=2017,
                         data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
-  r2 <- get_county_data(key=key, year=2017,
+  r2 <- get_county_data(key=Sys.getenv('NASS_KEY'), year=2017,
                         data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
-  r3 <- get_county_data(key=key, year=2017,
+  r3 <- get_county_data(key=Sys.getenv('NASS_KEY'), year=2017,
                         data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069')
   expect_equal(class(r1)[1], 'spec_tbl_df')
   expect_true(nrow(r1) > 500 & nrow(r1) < 3800)
