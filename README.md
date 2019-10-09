@@ -68,6 +68,12 @@ typical workflow would be to start broad, view results, then incrementally
 narrow your search using both arguments. Note that the search terms are not case
 sensitive - the function handles this automatically.
 
+You can also retrieve options associated with a data item:
+```
+get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
+```
+
+
 ## Retrieve data
 Once you have found your desired data item, you can pull data in one of five 
 ways:
