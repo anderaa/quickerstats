@@ -76,7 +76,7 @@ get_param_values <- function(key,
 #' @export
 get_options <- function(key, data_item) {
   # sorry about the nesting!
-  print('Retrieving options...')
+  message('Retrieving options...this may take a minute...')
   combos <- list()
   possible_sources <- get_param_values(key=key,
                                        param='source_desc',
