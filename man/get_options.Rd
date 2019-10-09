@@ -19,6 +19,8 @@ available.
 Get the parameter options available for some short_desc value.
 }
 \examples{
+\donttest{
 key <- Sys.getenv('NASS_KEY')
 get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
+}
 }

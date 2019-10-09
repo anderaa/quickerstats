@@ -18,11 +18,13 @@
 #' param.
 #' @return A vector of all values that the parameter can take.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_param_values(key=key, param='short_desc')
 #' get_param_values(key=key, param='year',
 #'                  short_desc='CORN, GRAIN - ACRES HARVESTED',
 #'                  source_desc='CENSUS')
+#' }
 #' @export
 get_param_values <- function(key,
                              param,
@@ -67,8 +69,10 @@ get_param_values <- function(key,
 #' @return A df of the unique combinations of other paramters that are
 #' available.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
+#' }
 #' @export
 get_options <- function(key, data_item) {
   # sorry about the nesting!
@@ -125,10 +129,12 @@ get_options <- function(key, data_item) {
 #' of these.
 #' @return A list of all search results.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' search_data_items(key, search_terms=c('corn', 'harvested'),
 #'                   exclude=c('sweet'))
 #' search_data_items(key, search_terms=c('corn', 'price'), exclude=c())
+#' }
 #' @export
 search_data_items <- function(key, search_terms, exclude=c()) {
   items <- get_param_values(key, param='short_desc')
@@ -176,6 +182,7 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 #' categories of operations), use 'all' to get all.
 #' @return The count of values.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_county_item_count(key=key, year=2017,
 #'                       data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
@@ -184,6 +191,7 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 #' get_county_item_count(key=key, year=2017,
 #'                       data_item='CORN, GRAIN - ACRES HARVESTED',
 #'                       fips='08069', domain='all')
+#' }
 #' @export
 get_county_item_count <- function(key, year,
                                   data_item, fips='all', domain='TOTAL') {
@@ -239,6 +247,7 @@ get_county_item_count <- function(key, year,
 #' @return A tibble df of the requested data, if any exists. Otherwise returns
 #' NA.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_county_data(key=key, year=2017,
 #'                 data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
@@ -247,6 +256,7 @@ get_county_item_count <- function(key, year,
 #' get_county_data(key=key, year=2017,
 #'                 data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069',
 #'                 domain='all')
+#' }
 #' @export
 get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   # check if any data exists
@@ -309,11 +319,13 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
 #' categories of operations), use 'all' to get all.
 #' @return The count of values.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_state_item_count(key=key, year=2017,
 #'                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 #' get_state_item_count(key=key, year=2017,
 #'                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+#' }
 #' @export
 get_state_item_count <- function(key, year, data_item,
                                  fips='all', domain='TOTAL') {
@@ -361,11 +373,13 @@ get_state_item_count <- function(key, year, data_item,
 #' @return A tibble df of the requested data, if any exists. Otherwise returns
 #' NA.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_state_data(key=key, year=2017,
 #'                data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 #' get_state_data(key=key, year=2017,
 #'                data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+#' }
 #' @export
 get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   # check if any data exists

@@ -27,9 +27,11 @@ NA.
 Get the data for the specified query for state-level data.
 }
 \examples{
+\donttest{
 key <- Sys.getenv('NASS_KEY')
 get_state_data(key=key, year=2017,
                data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 get_state_data(key=key, year=2017,
                data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+}
 }

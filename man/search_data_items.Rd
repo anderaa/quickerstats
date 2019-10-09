@@ -22,8 +22,10 @@ A list of all search results.
 Get available data items based on search terms.
 }
 \examples{
+\donttest{
 key <- Sys.getenv('NASS_KEY')
 search_data_items(key, search_terms=c('corn', 'harvested'),
                   exclude=c('sweet'))
 search_data_items(key, search_terms=c('corn', 'price'), exclude=c())
+}
 }

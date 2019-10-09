@@ -29,6 +29,7 @@ Get the count of values that exist for the specified query for county-level
 data.
 }
 \examples{
+\donttest{
 key <- Sys.getenv('NASS_KEY')
 get_county_item_count(key=key, year=2017,
                       data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
@@ -37,4 +38,5 @@ get_county_item_count(key=key, year=2017,
 get_county_item_count(key=key, year=2017,
                       data_item='CORN, GRAIN - ACRES HARVESTED',
                       fips='08069', domain='all')
+}
 }

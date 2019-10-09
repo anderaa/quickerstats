@@ -32,9 +32,11 @@ See \url{https://quickstats.nass.usda.gov/api} for a table of parameter
 names.
 }
 \examples{
+\donttest{
 key <- Sys.getenv('NASS_KEY')
 get_param_values(key=key, param='short_desc')
 get_param_values(key=key, param='year',
                  short_desc='CORN, GRAIN - ACRES HARVESTED',
                  source_desc='CENSUS')
+}
 }
