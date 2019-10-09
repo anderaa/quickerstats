@@ -23,6 +23,7 @@
 #' get_param_values(key=key, param='year',
 #'                  short_desc='CORN, GRAIN - ACRES HARVESTED',
 #'                  source_desc='CENSUS')
+#' @export
 get_param_values <- function(key,
                              param,
                              short_desc=NA,
@@ -55,6 +56,62 @@ get_param_values <- function(key,
     results <- c(results, items[[1]][[i]][[1]])
   }
   return(results)
+}
+################################################################################
+
+################################################################################
+#' Get the parameter options available for some short_desc value.
+#'
+#' @param key Your NASS API key.
+#' @param data_item The short_desc (data item) string to get options for.
+#' @return A df of the unique combinations of other paramters that are
+#' available.
+#' @examples
+#' key <- Sys.getenv('NASS_KEY')
+#' get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
+#' @export
+get_options <- function(key, data_item) {
+  # sorry about the nesting!
+  print('Retrieving options...')
+  combos <- list()
+  possible_sources <- get_param_values(key=key,
+                                       param='source_desc',
+                                       short_desc=data_item)
+  for (source_desc in possible_sources) {
+    possible_years <- get_param_values(key=key,
+                                       param='year',
+                                       short_desc=data_item,
+                                       source_desc=source_desc)
+    for (year in possible_years) {
+      if (year >= '1997') {
+        possible_agg_level_desc <- get_param_values(key=key,
+                                                    param='agg_level_desc',
+                                                    short_desc=data_item,
+                                                    source_desc=source_desc,
+                                                    year=year)
+        for (agg_level_desc in possible_agg_level_desc) {
+          if (agg_level_desc == 'COUNTY' | agg_level_desc == 'STATE') {
+            possible_domains <- get_param_values(
+              key=key,
+              param='domain_desc',
+              short_desc=data_item,
+              source_desc=source_desc,
+              agg_level_desc=agg_level_desc,
+              year=year)
+            for (domain in possible_domains) {
+              combos[[length(combos)+1]] <- c(source_desc,
+                                              year,
+                                              agg_level_desc,
+                                              domain)
+            }
+          }
+        }
+      }
+    }
+  }
+  df <- as.data.frame(do.call(rbind, combos))
+  colnames(df) <- c('source_desc', 'year', 'agg_level_desc', 'domain_desc')
+  return(df)
 }
 ################################################################################
 
@@ -346,61 +403,5 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   # make the request
   r <- httr::GET(url)
   return(httr::content(r))
-}
-################################################################################
-
-################################################################################
-#' Get the parameter options available for some short_desc value.
-#'
-#' @param key Your NASS API key.
-#' @param short_desc The short_desc (data item) string to get options for.
-#' @return A df of the unique combinations of other paramters that are
-#' available.
-#' @examples
-#' key <- Sys.getenv('NASS_KEY')
-#' get_options(key=key, short_desc='CORN, GRAIN - ACRES HARVESTED')
-#' @export
-get_options <- function(key, data_item) {
-  # sorry about the nesting!
-  print('Retrieving options...')
-  combos <- list()
-  possible_sources <- get_param_values(key=key,
-                                       param='source_desc',
-                                       short_desc=data_item)
-  for (source_desc in possible_sources) {
-    possible_years <- get_param_values(key=key,
-                                       param='year',
-                                       short_desc=short_desc,
-                                       source_desc=source_desc)
-    for (year in possible_years) {
-      if (year >= '1997') {
-        possible_agg_level_desc <- get_param_values(key=key,
-                                                    param='agg_level_desc',
-                                                    short_desc=short_desc,
-                                                    source_desc=source_desc,
-                                                    year=year)
-        for (agg_level_desc in possible_agg_level_desc) {
-          if (agg_level_desc == 'COUNTY' | agg_level_desc == 'STATE') {
-            possible_domains <- get_param_values(
-                                  key=key,
-                                  param='domain_desc',
-                                  short_desc=short_desc,
-                                  source_desc=source_desc,
-                                  agg_level_desc=agg_level_desc,
-                                  year=year)
-            for (domain in possible_domains) {
-              combos[[length(combos)+1]] <- c(source_desc,
-                                              year,
-                                              agg_level_desc,
-                                              domain)
-            }
-          }
-        }
-      }
-    }
-  }
-  df <- as.data.frame(do.call(rbind, combos))
-  colnames(df) <- c('source_desc', 'year', 'agg_level_desc', 'domain_desc')
-  return(df)
 }
 ################################################################################

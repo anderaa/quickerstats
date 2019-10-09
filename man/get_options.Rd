@@ -9,7 +9,7 @@ get_options(key, data_item)
 \arguments{
 \item{key}{Your NASS API key.}
 
-\item{short_desc}{The short_desc (data item) string to get options for.}
+\item{data_item}{The short_desc (data item) string to get options for.}
 }
 \value{
 A df of the unique combinations of other paramters that are
@@ -20,5 +20,5 @@ Get the parameter options available for some short_desc value.
 }
 \examples{
 key <- Sys.getenv('NASS_KEY')
-get_options(key=key, short_desc='CORN, GRAIN - ACRES HARVESTED')
+get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
 }
