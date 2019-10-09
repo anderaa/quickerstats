@@ -82,33 +82,33 @@ get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
 Once you have found your desired data item, you can pull data in one of five 
 ways:
 
-### 1. Pull state-level data for all states
+#### 1. Pull state-level data for all states
 To pull data for all states, the fips argument must be set to 'all':
 ```
 get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 ```
 
-### 2. Pull state-level data for a single state
+#### 2. Pull state-level data for a single state
 To pull data for a single county, the fips argument must be passed a 
 2-character string that is the state FIPS code:
 ```
 get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 ```
 
-### 3. Pull county-level data for all counties in the US
+#### 3. Pull county-level data for all counties in the US
 As in the state example, set fips to 'all':
 ```
 get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 ```
 
-### 4. Pull county-level data for all counties in a single state
+#### 4. Pull county-level data for all counties in a single state
 To get data for counties in a state, fips must be the 2-character fips code of 
 the desired state:
 ```
 get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 ```
 
-### 5. Pull county-level data for a single county
+#### 5. Pull county-level data for a single county
 Simple pass fips a 5-character FIPS code for the county:
 ```
 get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069')
