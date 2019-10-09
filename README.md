@@ -1,7 +1,7 @@
 # quickerstats
-## Aaron Anderson, 2019-10-08
-
 An R client for the NASS Quick Stats API
+
+Aaron Anderson, 2019-10-08
 
 ## Introduction
 The USDA's National Agricultural Statistics Service collects a wide variety of
