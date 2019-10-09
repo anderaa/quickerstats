@@ -6,10 +6,10 @@ Aaron Anderson, 2019-10-08
 ## Introduction
 The USDA's National Agricultural Statistics Service collects a wide variety of
 data on US agriculture. They maintain a web tool (Quick Stats), and an API for 
-accessing the data. Both of the existing tools for pulling data are cumbersome 
-for many users due to their design and the variety of data available. The goal 
-of quickerstats is to provide a tool for pulling data that is easier to use. 
-The package does this in two ways:
+accessing the data. While powerful and flexible, both of the existing tools for 
+pulling data can be cumbersome for many users. The goal of quickerstats is to 
+functionality for pulling data that is easier to use. The package does this in 
+two ways:
 
 * Provide a search tool. An important parameter of the Quick Stats is 
 'short_desc' (called Data Item in the web tool), which is a concatenation six 
