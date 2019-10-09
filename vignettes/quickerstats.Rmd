@@ -8,6 +8,15 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, include = FALSE}
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  purl = NOT_CRAN
+)
+```
+
 ## Introduction
 The USDA's National Agricultural Statistics Service collects a wide variety of
 data on US agriculture. They maintain a web tool (Quick Stats), and an API for 
@@ -43,6 +52,7 @@ https://quickstats.nass.usda.gov/api
 ``` {r, eval = FALSE}
 devtools::install_github('anderaa/quickerstats', force=TRUE, build_vignettes=TRUE)
 ```
+
 ```{r, eval = NOT_CRAN}
 library('quickerstats')
 ```
@@ -86,14 +96,14 @@ print(head(df, 5))
 Once you have found your desired data item, you can pull data in one of five 
 ways:
 
-### 1. Pull state-level data for all states
+#### 1. Pull state-level data for all states
 To pull data for all states, the fips argument must be set to 'all':
 ``` {r, message = FALSE, eval = NOT_CRAN}
 df <- get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 print(head(df, 5))
 ```
 
-### 2. Pull state-level data for a single state
+#### 2. Pull state-level data for a single state
 To pull data for a single county, the fips argument must be passed a 
 2-character string that is the state FIPS code:
 ``` {r, message = FALSE, eval = NOT_CRAN}
@@ -101,14 +111,14 @@ df <- get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTE
 print(head(df, 5))
 ```
 
-### 3. Pull county-level data for all counties in the US
+#### 3. Pull county-level data for all counties in the US
 As in the state example, set fips to 'all':
 ``` {r, message = FALSE, eval = NOT_CRAN}
 df <- get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 print(head(df, 5))
 ```
 
-### 4. Pull county-level data for all counties in a single state
+#### 4. Pull county-level data for all counties in a single state
 To get data for counties in a state, fips must be the 2-character fips code of 
 the desired state:
 ``` {r, message = FALSE, eval = NOT_CRAN}
@@ -116,7 +126,7 @@ df <- get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVEST
 print(head(df, 5))
 ```
 
-### 5. Pull county-level data for a single county
+#### 5. Pull county-level data for a single county
 Simple pass fips a 5-character FIPS code for the county:
 ``` {r, message = FALSE, eval = NOT_CRAN}
 df <- get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069')
@@ -133,13 +143,5 @@ print(head(df, 5))
 ?get_state_data
 ```
 
-```{r, include = FALSE}
-NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  purl = NOT_CRAN
-)
-```
 
 
