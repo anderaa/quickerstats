@@ -9,6 +9,9 @@ check_response(status_code)
 \arguments{
 \item{status_code}{The http response code.}
 }
+\value{
+Nothing.
+}
 \description{
 Print human-readable messages for http errors.
 }
