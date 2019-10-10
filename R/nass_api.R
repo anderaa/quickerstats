@@ -4,6 +4,7 @@
 #' Print human-readable messages for http errors.
 #'
 #' @param status_code The http response code.
+#' @return Nothing.
 check_response <- function(status_code) {
   if (status_code == 200) {
     message('Request successful (code=200).')
