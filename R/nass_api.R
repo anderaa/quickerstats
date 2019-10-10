@@ -33,6 +33,10 @@ get_param_values <- function(key,
                              year=NA,
                              agg_level_desc=NA) {
 
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   url <- paste('http://quickstats.nass.usda.gov/api/get_param_values/?',
                'key=', key,
                '&param=', param,
@@ -75,6 +79,11 @@ get_param_values <- function(key,
 #' }
 #' @export
 get_options <- function(key, data_item) {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   # sorry about the nesting!
   message('Retrieving options...this may take a minute...')
   combos <- list()
@@ -137,6 +146,11 @@ get_options <- function(key, data_item) {
 #' }
 #' @export
 search_data_items <- function(key, search_terms, exclude=c()) {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   items <- get_param_values(key, param='short_desc')
   results <- c()
   for (i in 1:length(items)) {
@@ -195,6 +209,11 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 #' @export
 get_county_item_count <- function(key, year,
                                   data_item, fips='all', domain='TOTAL') {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
                     '&short_desc=', data_item,
@@ -259,6 +278,11 @@ get_county_item_count <- function(key, year,
 #' }
 #' @export
 get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   # check if any data exists
   if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
     print('No data exists for this particular query.
@@ -329,6 +353,11 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
 #' @export
 get_state_item_count <- function(key, year, data_item,
                                  fips='all', domain='TOTAL') {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
                     '&short_desc=', data_item,
@@ -382,6 +411,11 @@ get_state_item_count <- function(key, year, data_item,
 #' }
 #' @export
 get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   # check if any data exists
   if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
     print('No data exists for this particular query.

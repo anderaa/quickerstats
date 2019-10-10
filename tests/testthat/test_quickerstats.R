@@ -9,7 +9,7 @@ skip_if_no_auth <- function() {
 
 test_that("get_param_values returns objects of correct size and type", {
   skip_if_no_auth()
-  r <- get_param_values(key=key, param='short_desc')
+  r <- get_param_values(key=Sys.getenv('NASS_KEY'), param='short_desc')
   expect_equal(class(r), 'character')
   expect_equal(class(r[1]), 'character')
   expect_equal(length(r[1]), 1)
@@ -18,7 +18,8 @@ test_that("get_param_values returns objects of correct size and type", {
 
 test_that("get_options returns object of correct size and type", {
   skip_if_no_auth()
-  r <- get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
+  r <- get_options(key=Sys.getenv('NASS_KEY'),
+                   data_item='CORN, GRAIN - ACRES HARVESTED')
   expect_equal(class(r), 'data.frame')
   expect_equal(ncol(r), 4)
   expect_true(nrow(r) >= 1)
