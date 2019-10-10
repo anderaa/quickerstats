@@ -25,13 +25,15 @@ categories of operations), use 'all' to get all.}
 The count of values.
 }
 \description{
-Get the count of values that exist for the specified query for state-level
-data.
+This is used as a utility function by other functions, but can also be used
+to explore expected results before pulling real data.
 }
 \examples{
+\donttest{
 key <- Sys.getenv('NASS_KEY')
 get_state_item_count(key=key, year=2017,
                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 get_state_item_count(key=key, year=2017,
                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+}
 }

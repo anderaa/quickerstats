@@ -2,7 +2,7 @@
 % Please edit documentation in R/nass_api.R
 \name{get_state_data}
 \alias{get_state_data}
-\title{Get the data for the specified query for state-level data.}
+\title{A flexible function for pulling state-level data.}
 \usage{
 get_state_data(key, year, data_item, fips = "all", domain = "TOTAL")
 }
@@ -24,12 +24,14 @@ A tibble df of the requested data, if any exists. Otherwise returns
 NA.
 }
 \description{
-Get the data for the specified query for state-level data.
+Automatically builds the specified query and retrieves state-level data.
 }
 \examples{
+\donttest{
 key <- Sys.getenv('NASS_KEY')
 get_state_data(key=key, year=2017,
                data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 get_state_data(key=key, year=2017,
                data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+}
 }

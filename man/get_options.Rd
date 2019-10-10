@@ -16,9 +16,12 @@ A df of the unique combinations of other paramters that are
 available.
 }
 \description{
-Get the parameter options available for some short_desc value.
+Not all combinations of parameters are available for all data items. This
+functions finds the unique combinations that are available.
 }
 \examples{
+\donttest{
 key <- Sys.getenv('NASS_KEY')
 get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
+}
 }

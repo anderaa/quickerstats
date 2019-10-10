@@ -1,9 +1,35 @@
 
 
 ################################################################################
+#' Print human-readable messages for http errors.
+#'
+#' @param status_code The http response code.
+#' @return Nothing.
+check_response <- function(status_code) {
+  if (status_code == 200) {
+    message('Request successful (code=200).')
+  } else if (status_code == 401) {
+    stop('The provided key could not be authenticated (code=401).')
+  } else if (status_code == 400) {
+    stop('The server says your request was bad. Please check param value and
+         other arguments (code=400).')
+  } else if (status_code > 401 & status_code < 500) {
+    stop(paste('Something bad happened. The problem is client-related (code=',
+               status_code, ')', sep=''))
+  } else if (status_code >= 500 & status_code < 600) {
+    stop(paste('Something bad happened. The problem is server-related (code=',
+               status_code, ')', sep=''))
+  } else {
+    stop(paste('Something bad happened (code=', status_code, ')', sep=''))
+  }
+}
+################################################################################
+
+################################################################################
 #' Get all values a parameter can take.
 #'
-#' Get all values of a parameters that can be passed in a GET request.
+#' Get all values of a parameters that can be passed in a GET request. Primarily
+#' used as a utility function by other functions.
 #' See \url{https://quickstats.nass.usda.gov/api} for a table of parameter
 #' names.
 #'
@@ -18,11 +44,13 @@
 #' param.
 #' @return A vector of all values that the parameter can take.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_param_values(key=key, param='short_desc')
 #' get_param_values(key=key, param='year',
 #'                  short_desc='CORN, GRAIN - ACRES HARVESTED',
 #'                  source_desc='CENSUS')
+#' }
 #' @export
 get_param_values <- function(key,
                              param,
@@ -30,6 +58,10 @@ get_param_values <- function(key,
                              source_desc=NA,
                              year=NA,
                              agg_level_desc=NA) {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
 
   url <- paste('http://quickstats.nass.usda.gov/api/get_param_values/?',
                'key=', key,
@@ -50,6 +82,7 @@ get_param_values <- function(key,
   }
 
   r <- httr::GET(url)
+  check_response(r$status)
   items <- httr::content(r)
   results <- c()
   for (i in 1:length(items[[1]])) {
@@ -62,17 +95,27 @@ get_param_values <- function(key,
 ################################################################################
 #' Get the parameter options available for some short_desc value.
 #'
+#' Not all combinations of parameters are available for all data items. This
+#' functions finds the unique combinations that are available.
+#'
 #' @param key Your NASS API key.
 #' @param data_item The short_desc (data item) string to get options for.
 #' @return A df of the unique combinations of other paramters that are
 #' available.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
+#' }
 #' @export
 get_options <- function(key, data_item) {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   # sorry about the nesting!
-  print('Retrieving options...')
+  message('Retrieving options...this may take a minute...')
   combos <- list()
   possible_sources <- get_param_values(key=key,
                                        param='source_desc',
@@ -118,6 +161,9 @@ get_options <- function(key, data_item) {
 ################################################################################
 #' Get available data items based on search terms.
 #'
+#' There are large number of data items available. This function can be used
+#' to increasingly refine search results until the desired data item is found.
+#'
 #' @param key Your NASS api key.
 #' @param search_terms A vector of search terms. Each result will include all
 #' terms.
@@ -125,12 +171,19 @@ get_options <- function(key, data_item) {
 #' of these.
 #' @return A list of all search results.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' search_data_items(key, search_terms=c('corn', 'harvested'),
 #'                   exclude=c('sweet'))
 #' search_data_items(key, search_terms=c('corn', 'price'), exclude=c())
+#' }
 #' @export
 search_data_items <- function(key, search_terms, exclude=c()) {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   items <- get_param_values(key, param='short_desc')
   results <- c()
   for (i in 1:length(items)) {
@@ -167,6 +220,9 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 #' Get the count of values that exist for the specified query for county-level
 #' data.
 #'
+#' This is used as a utility function by other functions, but can also be used
+#' to explore expected results before pulling real data.
+#'
 #' @param key Your NASS API key.
 #' @param year Must be a census year (e.g. 2012, 2017).
 #' @param data_item The long description of the desired series. Use
@@ -176,6 +232,7 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 #' categories of operations), use 'all' to get all.
 #' @return The count of values.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_county_item_count(key=key, year=2017,
 #'                       data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
@@ -184,9 +241,15 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 #' get_county_item_count(key=key, year=2017,
 #'                       data_item='CORN, GRAIN - ACRES HARVESTED',
 #'                       fips='08069', domain='all')
+#' }
 #' @export
 get_county_item_count <- function(key, year,
                                   data_item, fips='all', domain='TOTAL') {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
                     '&short_desc=', data_item,
@@ -222,12 +285,15 @@ get_county_item_count <- function(key, year,
   }
   # make the request
   r <- httr::GET(url)
+  check_response(r$status)
   return(httr::content(r)$count)
 }
 ################################################################################
 
 ################################################################################
-#' Get the data for the specified query for county-level data.
+#' A flexible function for pulling county-level data.
+#'
+#' Automatically builds the specified query and retrieves county-level data.
 #'
 #' @param key Your NASS API key.
 #' @param year Must be a census year (e.g. 2012, 2017).
@@ -239,6 +305,7 @@ get_county_item_count <- function(key, year,
 #' @return A tibble df of the requested data, if any exists. Otherwise returns
 #' NA.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_county_data(key=key, year=2017,
 #'                 data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
@@ -247,8 +314,14 @@ get_county_item_count <- function(key, year,
 #' get_county_data(key=key, year=2017,
 #'                 data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069',
 #'                 domain='all')
+#' }
 #' @export
 get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   # check if any data exists
   if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
     print('No data exists for this particular query.
@@ -292,6 +365,7 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   }
   # make the request
   r <- httr::GET(url)
+  check_response(r$status)
   return(httr::content(r))
 }
 ################################################################################
@@ -299,6 +373,9 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
 ################################################################################
 #' Get the count of values that exist for the specified query for state-level
 #' data.
+#'
+#' This is used as a utility function by other functions, but can also be used
+#' to explore expected results before pulling real data.
 #'
 #' @param key Your NASS API key.
 #' @param year Must be a census year (e.g. 2012, 2017).
@@ -309,14 +386,21 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
 #' categories of operations), use 'all' to get all.
 #' @return The count of values.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_state_item_count(key=key, year=2017,
 #'                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 #' get_state_item_count(key=key, year=2017,
 #'                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+#' }
 #' @export
 get_state_item_count <- function(key, year, data_item,
                                  fips='all', domain='TOTAL') {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
                     '&short_desc=', data_item,
@@ -344,12 +428,15 @@ get_state_item_count <- function(key, year, data_item,
   }
   # make the request
   r <- httr::GET(url)
+  check_response(r$status)
   return(httr::content(r)$count)
 }
 ################################################################################
 
 ################################################################################
-#' Get the data for the specified query for state-level data.
+#' A flexible function for pulling state-level data.
+#'
+#' Automatically builds the specified query and retrieves state-level data.
 #'
 #' @param key Your NASS API key.
 #' @param year Must be a census year (e.g. 2012, 2017).
@@ -361,13 +448,20 @@ get_state_item_count <- function(key, year, data_item,
 #' @return A tibble df of the requested data, if any exists. Otherwise returns
 #' NA.
 #' @examples
+#' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
 #' get_state_data(key=key, year=2017,
 #'                data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 #' get_state_data(key=key, year=2017,
 #'                data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+#' }
 #' @export
 get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
+
+  if (!curl::has_internet()) {
+    stop('No internet connection!')
+  }
+
   # check if any data exists
   if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
     print('No data exists for this particular query.
@@ -402,6 +496,7 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   }
   # make the request
   r <- httr::GET(url)
+  check_response(r$status)
   return(httr::content(r))
 }
 ################################################################################

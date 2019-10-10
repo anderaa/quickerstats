@@ -27,14 +27,17 @@ param.}
 A vector of all values that the parameter can take.
 }
 \description{
-Get all values of a parameters that can be passed in a GET request.
+Get all values of a parameters that can be passed in a GET request. Primarily
+used as a utility function by other functions.
 See \url{https://quickstats.nass.usda.gov/api} for a table of parameter
 names.
 }
 \examples{
+\donttest{
 key <- Sys.getenv('NASS_KEY')
 get_param_values(key=key, param='short_desc')
 get_param_values(key=key, param='year',
                  short_desc='CORN, GRAIN - ACRES HARVESTED',
                  source_desc='CENSUS')
+}
 }

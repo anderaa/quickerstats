@@ -6,10 +6,10 @@ Aaron Anderson, 2019-10-08
 ## Introduction
 The USDA's National Agricultural Statistics Service collects a wide variety of
 data on US agriculture. They maintain a web tool (Quick Stats), and an API for 
-accessing the data. Both of the existing tools for pulling data are cumbersome 
-for many users due to their design and the variety of data available. The goal 
-of quickerstats is to provide a tool for pulling data that is easier to use. 
-The package does this in two ways:
+accessing the data. While powerful and flexible, both of the existing tools for 
+pulling data can be cumbersome for many users. The goal of quickerstats is to 
+functionality for pulling data that is easier to use. The package does this in 
+two ways:
 
 * Provide a search tool. An important parameter of the Quick Stats is 
 'short_desc' (called Data Item in the web tool), which is a concatenation six 
@@ -56,6 +56,11 @@ You can now access the variable with:
 key <- Sys.getenv('NASS_KEY')
 ```
 
+Full documentation is available with:
+```
+vignette('quickerstats')
+```
+
 ## Search for a data item
 
 Search for a data item like this:
@@ -73,38 +78,37 @@ You can also retrieve options associated with a data item:
 get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
 ```
 
-
 ## Retrieve data
 Once you have found your desired data item, you can pull data in one of five 
 ways:
 
-### 1. Pull state-level data for all states
+#### 1. Pull state-level data for all states
 To pull data for all states, the fips argument must be set to 'all':
 ```
 get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 ```
 
-### 2. Pull state-level data for a single state
+#### 2. Pull state-level data for a single state
 To pull data for a single county, the fips argument must be passed a 
 2-character string that is the state FIPS code:
 ```
 get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 ```
 
-### 3. Pull county-level data for all counties in the US
+#### 3. Pull county-level data for all counties in the US
 As in the state example, set fips to 'all':
 ```
 get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
 ```
 
-### 4. Pull county-level data for all counties in a single state
+#### 4. Pull county-level data for all counties in a single state
 To get data for counties in a state, fips must be the 2-character fips code of 
 the desired state:
 ```
 get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 ```
 
-### 5. Pull county-level data for a single county
+#### 5. Pull county-level data for a single county
 Simple pass fips a 5-character FIPS code for the county:
 ```
 get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08069')
