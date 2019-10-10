@@ -1,13 +1,25 @@
 
 
 ################################################################################
+#' Print human-readable messages for http errors.
+#'
+#' @param status_code The http response code.
 check_response <- function(status_code) {
-  if (status_code == 401) {
-    stop('The provided key could not be authenticated!')
-  }
-  if (status_code == 400) {
+  if (status_code == 200) {
+    message('Request successful (code=200).')
+  } else if (status_code == 401) {
+    stop('The provided key could not be authenticated (code=401).')
+  } else if (status_code == 400) {
     stop('The server says your request was bad. Please check param value and
-         other arguments.')
+         other arguments (code=400).')
+  } else if (status_code > 401 & status_code < 500) {
+    stop(paste('Something bad happened. The problem is client-related (code=',
+               status_code, ')', sep=''))
+  } else if (status_code >= 500 & status_code < 600) {
+    stop(paste('Something bad happened. The problem is server-related (code=',
+               status_code, ')', sep=''))
+  } else {
+    stop(paste('Something bad happened (code=', status_code, ')', sep=''))
   }
 }
 ################################################################################
