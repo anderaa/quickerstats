@@ -21,7 +21,7 @@ test_that("get_options returns object of correct size and type", {
   r <- get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
   expect_equal(class(r), 'data.frame')
   expect_equal(ncol(r), 4)
-  expect_true(nrow(r), 1)
+  expect_true(nrow(r) >= 1)
 })
 
 test_that("search_data_items returns objects of correct size and type", {
