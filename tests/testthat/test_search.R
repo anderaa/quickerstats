@@ -23,7 +23,6 @@ test_that("search function operating properly", {
     count <- count + (grepl('CORN', r) & grepl('HARVESTED', r))
   }
   expect_equal(count, length(r2))
-
   count <- 0
   for (r in r3) {
     count <- count + (grepl('GRAIN', r) | grepl('SILAGE', r))
