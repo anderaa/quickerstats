@@ -1,6 +1,18 @@
 
 
 ################################################################################
+check_response <- function(status_code) {
+  if (status_code == 401) {
+    stop('The provided key could not be authenticated!')
+  }
+  if (status_code == 400) {
+    stop('The server says your request was bad. Please check param value and
+         other arguments.')
+  }
+}
+################################################################################
+
+################################################################################
 #' Get all values a parameter can take.
 #'
 #' Get all values of a parameters that can be passed in a GET request. Primarily
@@ -57,9 +69,7 @@ get_param_values <- function(key,
   }
 
   r <- httr::GET(url)
-  if (r$status_code == 401) {
-     stop('The provided key could not be authenticated!')
-  }
+  check_response(r$status)
   items <- httr::content(r)
   results <- c()
   for (i in 1:length(items[[1]])) {
@@ -262,7 +272,7 @@ get_county_item_count <- function(key, year,
   }
   # make the request
   r <- httr::GET(url)
-
+  check_response(r$status)
   return(httr::content(r)$count)
 }
 ################################################################################
@@ -342,9 +352,7 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   }
   # make the request
   r <- httr::GET(url)
-  if (r$status_code == 401) {
-    stop('The provided key could not be authenticated!')
-  }
+  check_response(r$status)
   return(httr::content(r))
 }
 ################################################################################
@@ -407,9 +415,7 @@ get_state_item_count <- function(key, year, data_item,
   }
   # make the request
   r <- httr::GET(url)
-  if (r$status_code == 401) {
-    stop('The provided key could not be authenticated!')
-  }
+  check_response(r$status)
   return(httr::content(r)$count)
 }
 ################################################################################
@@ -477,9 +483,7 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   }
   # make the request
   r <- httr::GET(url)
-  if (r$status_code == 401) {
-    stop('The provided key could not be authenticated!')
-  }
+  check_response(r$status)
   return(httr::content(r))
 }
 ################################################################################
