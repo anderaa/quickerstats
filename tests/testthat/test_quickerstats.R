@@ -7,6 +7,23 @@ skip_if_no_auth <- function() {
   }
 }
 
+test_that("get_param_values returns objects of correct size and type", {
+  skip_if_no_auth()
+  r <- get_param_values(key=key, param='short_desc')
+  expect_equal(class(r), 'character')
+  expect_equal(class(r[1]), 'character')
+  expect_equal(length(r[1]), 1)
+  expect_true(length(r) > 20000 & length(r) < 40000)
+})
+
+test_that("get_options returns object of correct size and type", {
+  skip_if_no_auth()
+  r <- get_options(key=key, data_item='CORN, GRAIN - ACRES HARVESTED')
+  expect_equal(class(r), 'data.frame')
+  expect_equal(ncol(r), 4)
+  expect_true(nrow(r), 1)
+})
+
 test_that("search_data_items returns objects of correct size and type", {
   skip_if_no_auth()
   r <- search_data_items(key=Sys.getenv('NASS_KEY'), search_terms=c('corn'))
