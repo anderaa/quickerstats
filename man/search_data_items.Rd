@@ -19,7 +19,8 @@ of these.}
 A list of all search results.
 }
 \description{
-Get available data items based on search terms.
+There are large number of data items available. This function can be used
+to increasingly refine search results until the desired data item is found.
 }
 \examples{
 \donttest{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/nass_api.R
 \name{get_county_data}
 \alias{get_county_data}
-\title{Get the data for the specified query for county-level data.}
+\title{A flexible function for pulling county-level data.}
 \usage{
 get_county_data(key, year, data_item, fips = "all", domain = "TOTAL")
 }
@@ -24,7 +24,7 @@ A tibble df of the requested data, if any exists. Otherwise returns
 NA.
 }
 \description{
-Get the data for the specified query for county-level data.
+Automatically builds the specified query and retrieves county-level data.
 }
 \examples{
 \donttest{

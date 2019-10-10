@@ -25,8 +25,8 @@ categories of operations), use 'all' to get all.}
 The count of values.
 }
 \description{
-Get the count of values that exist for the specified query for state-level
-data.
+This is used as a utility function by other functions, but can also be used
+to explore expected results before pulling real data.
 }
 \examples{
 \donttest{
