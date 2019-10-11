@@ -151,9 +151,9 @@ get_options <- function(key, data_item) {
       }
     }
   }
-  df <- tibble::as_tibble(do.call(rbind, combos),
-                          .name_repair=c('source_desc', 'year',
-                                         'agg_level_desc', 'domain_desc'))
+  mat <- do.call(rbind, combos)
+  colnames(mat) <- c('source_desc', 'year', 'agg_level_desc', 'domain_desc')
+  df <- tibble::as_tibble(mat)
   return(df)
 }
 ################################################################################
