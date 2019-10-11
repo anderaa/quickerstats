@@ -1,6 +1,6 @@
 
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Print human-readable messages for http errors.
 #'
 #' @param status_code The http response code.
@@ -22,9 +22,9 @@ check_response <- function(status_code) {
     stop(paste('Something bad happened (code=', status_code, ')', sep=''))
   }
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Get all values a parameter can take.
 #'
 #' Get all values of a parameters that can be passed in a GET request. Primarily
@@ -89,9 +89,9 @@ get_param_values <- function(key,
   }
   return(results)
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Get the parameter options available for some short_desc value.
 #'
 #' Not all combinations of parameters are available for all data items. This
@@ -156,9 +156,9 @@ get_options <- function(key, data_item) {
   df <- tibble::as_tibble(mat)
   return(df)
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Get available data items based on search terms.
 #'
 #' There are large number of data items available. This function can be used
@@ -214,9 +214,9 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 
   return(results)
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Get the count of values that exist for the specified query for county-level
 #' data.
 #'
@@ -288,9 +288,9 @@ get_county_item_count <- function(key, year,
   check_response(r$status)
   return(httr::content(r)$count)
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' A flexible function for pulling county-level data.
 #'
 #' Automatically builds the specified query and retrieves county-level data.
@@ -368,9 +368,9 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   check_response(r$status)
   return(httr::content(r))
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Get the count of values that exist for the specified query for state-level
 #' data.
 #'
@@ -431,9 +431,9 @@ get_state_item_count <- function(key, year, data_item,
   check_response(r$status)
   return(httr::content(r)$count)
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' A flexible function for pulling state-level data.
 #'
 #' Automatically builds the specified query and retrieves state-level data.
@@ -499,4 +499,4 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   check_response(r$status)
   return(httr::content(r))
 }
-################################################################################
+#-------------------------------------------------------------------------------
