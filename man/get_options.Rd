@@ -12,7 +12,7 @@ get_options(key, data_item)
 \item{data_item}{The short_desc (data item) string to get options for.}
 }
 \value{
-A df of the unique combinations of other paramters that are
+A tibble df of the unique combinations of other paramters that are
 available.
 }
 \description{

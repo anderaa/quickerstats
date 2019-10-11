@@ -7,7 +7,6 @@
 #' @return Nothing.
 check_response <- function(status_code) {
   if (status_code == 200) {
-    message('Request successful (code=200).')
   } else if (status_code == 401) {
     stop('The provided key could not be authenticated (code=401).')
   } else if (status_code == 400) {
@@ -100,7 +99,7 @@ get_param_values <- function(key,
 #'
 #' @param key Your NASS API key.
 #' @param data_item The short_desc (data item) string to get options for.
-#' @return A df of the unique combinations of other paramters that are
+#' @return A tibble df of the unique combinations of other paramters that are
 #' available.
 #' @examples
 #' \donttest{
@@ -152,8 +151,9 @@ get_options <- function(key, data_item) {
       }
     }
   }
-  df <- as.data.frame(do.call(rbind, combos))
-  colnames(df) <- c('source_desc', 'year', 'agg_level_desc', 'domain_desc')
+  df <- tibble::as_tibble(do.call(rbind, combos),
+                          .name_repair=c('source_desc', 'year',
+                                         'agg_level_desc', 'domain_desc'))
   return(df)
 }
 ################################################################################
