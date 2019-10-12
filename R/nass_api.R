@@ -286,7 +286,7 @@ get_county_item_count <- function(key, year,
   else {
     print('The fips argument must be "all" or a 2-digit state fips or a 5-digit
           county fips')
-    return(NA)
+    return(NULL)
   }
   # make the request
   r <- httr::GET(url)
@@ -308,7 +308,7 @@ get_county_item_count <- function(key, year,
 #' @param domain A modifier on data_item, some characterstic (e.g. size
 #' categories of operations), use 'all' to get all.
 #' @return A tibble df of the requested data, if any exists. Otherwise returns
-#' NA.
+#' NULL.
 #' @examples
 #' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
@@ -331,7 +331,7 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
     print('No data exists for this particular query.
           Try modifying query paramters.')
-    return(NA)
+    return(NULL)
   }
 
   base_url <- paste('http://quickstats.nass.usda.gov/api/api_GET/?',
@@ -366,7 +366,7 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   else {
     print('The fips argument must be "all" or a 2-digit state fips or a 5-digit
           county fips')
-    return(NA)
+    return(NULL)
   }
   # make the request
   r <- httr::GET(url)
@@ -429,7 +429,7 @@ get_state_item_count <- function(key, year, data_item,
   }
   else {
     print('The fips argument must be "all" or a 2-digit state fips')
-    return(NA)
+    return(NULL)
   }
   # make the request
   r <- httr::GET(url)
@@ -451,7 +451,7 @@ get_state_item_count <- function(key, year, data_item,
 #' @param domain A modifier on data_item, some characterstic (e.g. size
 #' categories of operations), use 'all' to get all.
 #' @return A tibble df of the requested data, if any exists. Otherwise returns
-#' NA.
+#' NULL.
 #' @examples
 #' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
@@ -471,7 +471,7 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
     print('No data exists for this particular query.
           Try modifying query paramters.')
-    return(NA)
+    return(NULL)
   }
 
   base_url <- paste('http://quickstats.nass.usda.gov/api/api_GET/?',
