@@ -155,7 +155,7 @@ get_options <- function(key, data_item) {
   if (is.null(mat)) {
     message('The data item is not available at the state or county level.
              There are no options.')
-    return(NA)
+    return(NULL)
   }
   colnames(mat) <- c('source_desc', 'year', 'agg_level_desc', 'domain_desc')
   df <- tibble::as_tibble(mat)

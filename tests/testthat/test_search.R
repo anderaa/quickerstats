@@ -32,6 +32,6 @@ test_that("search function operating properly", {
 
 test_that("check get_options handles no options", {
   skip_if_no_auth()
-  expect_true(is.na(get_options(key=Sys.getenv('NASS_KEY'),
-                                data_item = 'CORN - ACRES HARVESTED')))
+  expect_true(is.null(get_options(key=Sys.getenv('NASS_KEY'),
+                                  data_item = 'CORN - ACRES HARVESTED')))
 })
