@@ -24,3 +24,4 @@ test_that("check for error with bad key", {
                                data_item='CORN, GRAIN - ACRES HARVESTED',
                                fips='all'))
 })
+
