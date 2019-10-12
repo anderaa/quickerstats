@@ -1,5 +1,7 @@
-# History files
+# Jupyter files
+notebooks/.ipynb_checkpoints/*
 
+# History files
 .Rhistory
 .Rapp.history
 
