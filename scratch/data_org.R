@@ -1,3 +1,7 @@
+
+# This script creates the data sets written to R/sysdata.rda
+
+# organize and write state data
 state_fips <- read.csv('scratch/state_fips.csv')
 state_fips['state_fips_string'] <- NA
 for (i in 1:nrow(state_fips)) {
@@ -9,6 +13,6 @@ for (i in 1:nrow(state_fips)) {
 }
 state_fips <- state_fips[c('name', 'state_fips_string')]
 colnames(state_fips) <- c('state', 'state_fips')
-
-
 usethis::use_data(state_fips, internal = TRUE)
+
+# organize and write county data
