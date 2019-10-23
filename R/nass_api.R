@@ -505,3 +505,11 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   return(httr::content(r))
 }
 #-------------------------------------------------------------------------------
+
+clean_data <- function() {
+  df1 <- quickerstats::county_fips
+  print(df1)
+  df2 <- quickerstats::state_fips
+  print(df2)
+}
+
