@@ -21,7 +21,7 @@ categories of operations), use 'all' to get all.}
 }
 \value{
 A tibble df of the requested data, if any exists. Otherwise returns
-NA.
+NULL.
 }
 \description{
 Automatically builds the specified query and retrieves county-level data.

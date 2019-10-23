@@ -20,7 +20,7 @@ test_that("get_options returns object of correct size and type", {
   skip_if_no_auth()
   r <- get_options(key=Sys.getenv('NASS_KEY'),
                    data_item='CORN, GRAIN - ACRES HARVESTED')
-  expect_equal(class(r), 'data.frame')
+  expect_equal(class(r)[1], 'tbl_df')
   expect_equal(ncol(r), 4)
   expect_true(nrow(r) >= 1)
 })

@@ -1,13 +1,12 @@
 
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Print human-readable messages for http errors.
 #'
 #' @param status_code The http response code.
 #' @return Nothing.
 check_response <- function(status_code) {
   if (status_code == 200) {
-    message('Request successful (code=200).')
   } else if (status_code == 401) {
     stop('The provided key could not be authenticated (code=401).')
   } else if (status_code == 400) {
@@ -23,9 +22,9 @@ check_response <- function(status_code) {
     stop(paste('Something bad happened (code=', status_code, ')', sep=''))
   }
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Get all values a parameter can take.
 #'
 #' Get all values of a parameters that can be passed in a GET request. Primarily
@@ -90,9 +89,9 @@ get_param_values <- function(key,
   }
   return(results)
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Get the parameter options available for some short_desc value.
 #'
 #' Not all combinations of parameters are available for all data items. This
@@ -100,7 +99,7 @@ get_param_values <- function(key,
 #'
 #' @param key Your NASS API key.
 #' @param data_item The short_desc (data item) string to get options for.
-#' @return A df of the unique combinations of other paramters that are
+#' @return A tibble df of the unique combinations of other paramters that are
 #' available.
 #' @examples
 #' \donttest{
@@ -152,13 +151,19 @@ get_options <- function(key, data_item) {
       }
     }
   }
-  df <- as.data.frame(do.call(rbind, combos))
-  colnames(df) <- c('source_desc', 'year', 'agg_level_desc', 'domain_desc')
+  mat <- do.call(rbind, combos)
+  if (is.null(mat)) {
+    message('The data item is not available at the state or county level.
+             There are no options.')
+    return(NULL)
+  }
+  colnames(mat) <- c('source_desc', 'year', 'agg_level_desc', 'domain_desc')
+  df <- tibble::as_tibble(mat)
   return(df)
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Get available data items based on search terms.
 #'
 #' There are large number of data items available. This function can be used
@@ -214,9 +219,9 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 
   return(results)
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Get the count of values that exist for the specified query for county-level
 #' data.
 #'
@@ -281,16 +286,16 @@ get_county_item_count <- function(key, year,
   else {
     print('The fips argument must be "all" or a 2-digit state fips or a 5-digit
           county fips')
-    return(NA)
+    return(NULL)
   }
   # make the request
   r <- httr::GET(url)
   check_response(r$status)
   return(httr::content(r)$count)
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' A flexible function for pulling county-level data.
 #'
 #' Automatically builds the specified query and retrieves county-level data.
@@ -303,7 +308,7 @@ get_county_item_count <- function(key, year,
 #' @param domain A modifier on data_item, some characterstic (e.g. size
 #' categories of operations), use 'all' to get all.
 #' @return A tibble df of the requested data, if any exists. Otherwise returns
-#' NA.
+#' NULL.
 #' @examples
 #' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
@@ -326,7 +331,7 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
     print('No data exists for this particular query.
           Try modifying query paramters.')
-    return(NA)
+    return(NULL)
   }
 
   base_url <- paste('http://quickstats.nass.usda.gov/api/api_GET/?',
@@ -361,16 +366,16 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   else {
     print('The fips argument must be "all" or a 2-digit state fips or a 5-digit
           county fips')
-    return(NA)
+    return(NULL)
   }
   # make the request
   r <- httr::GET(url)
   check_response(r$status)
   return(httr::content(r))
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' Get the count of values that exist for the specified query for state-level
 #' data.
 #'
@@ -424,16 +429,16 @@ get_state_item_count <- function(key, year, data_item,
   }
   else {
     print('The fips argument must be "all" or a 2-digit state fips')
-    return(NA)
+    return(NULL)
   }
   # make the request
   r <- httr::GET(url)
   check_response(r$status)
   return(httr::content(r)$count)
 }
-################################################################################
+#-------------------------------------------------------------------------------
 
-################################################################################
+#-------------------------------------------------------------------------------
 #' A flexible function for pulling state-level data.
 #'
 #' Automatically builds the specified query and retrieves state-level data.
@@ -446,7 +451,7 @@ get_state_item_count <- function(key, year, data_item,
 #' @param domain A modifier on data_item, some characterstic (e.g. size
 #' categories of operations), use 'all' to get all.
 #' @return A tibble df of the requested data, if any exists. Otherwise returns
-#' NA.
+#' NULL.
 #' @examples
 #' \donttest{
 #' key <- Sys.getenv('NASS_KEY')
@@ -466,7 +471,7 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
     print('No data exists for this particular query.
           Try modifying query paramters.')
-    return(NA)
+    return(NULL)
   }
 
   base_url <- paste('http://quickstats.nass.usda.gov/api/api_GET/?',
@@ -499,4 +504,4 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
   check_response(r$status)
   return(httr::content(r))
 }
-################################################################################
+#-------------------------------------------------------------------------------
