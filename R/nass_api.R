@@ -506,10 +506,27 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
 }
 #-------------------------------------------------------------------------------
 
-clean_data <- function() {
-  df1 <- quickerstats::county_fips
-  print(df1)
-  df2 <- quickerstats::state_fips
-  print(df2)
+clean_data <- function(df) {
+  if (is.na(df[1, 'county_ansi'])) {
+    # then we have state data
+    state_df <- quickerstats::state_fips
+  } else {
+    # then we have county data
+    county_df <- quickerstats::county_fips
+  }
 }
 
+
+df1 = get_state_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='all')
+df2 = get_county_data(key=key, year=2017, data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
+
+df <- df1
+
+df['state_fips_code']
+df['county_ansi']
+
+if (is.na(df[1, 'county_ansi'])) {
+  # then we have state data
+} else {
+  # then we have county data
+}
