@@ -6,7 +6,7 @@
 data.}
 \usage{
 get_state_item_count(key, year, data_item, fips = "all",
-  domain = "TOTAL")
+  domain = "TOTAL", source = "CENSUS")
 }
 \arguments{
 \item{key}{Your NASS API key.}
@@ -20,6 +20,8 @@ search_data_items function to find one.}
 
 \item{domain}{A modifier on data_item, some characterstic (e.g. size
 categories of operations), use 'all' to get all.}
+
+\item{source}{Must be 'CENSUS' or 'SURVEY'.}
 }
 \value{
 The count of values.
