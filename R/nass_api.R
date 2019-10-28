@@ -58,6 +58,8 @@ get_param_values <- function(key,
                              year=NA,
                              agg_level_desc=NA) {
 
+  short_desc = gsub('&', '%26', short_desc)
+
   if (!curl::has_internet()) {
     stop('No internet connection!')
   }
@@ -256,6 +258,8 @@ get_county_item_count <- function(key, year, data_item, fips='all',
     stop('No internet connection!')
   }
 
+  data_item = gsub('&', '%26', data_item)
+
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
                     '&short_desc=', data_item,
@@ -329,6 +333,8 @@ get_county_data <- function(key, year, data_item, fips='all',
   if (!curl::has_internet()) {
     stop('No internet connection!')
   }
+
+  data_item = gsub('&', '%26', data_item)
 
   # check if any data exists
   if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
@@ -410,6 +416,8 @@ get_state_item_count <- function(key, year, data_item, fips='all',
     stop('No internet connection!')
   }
 
+  data_item = gsub('&', '%26', data_item)
+
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
                     '&short_desc=', data_item,
@@ -472,6 +480,8 @@ get_state_data <- function(key, year, data_item, fips='all',
   if (!curl::has_internet()) {
     stop('No internet connection!')
   }
+
+  data_item = gsub('&', '%26', data_item)
 
   # check if any data exists
   if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
