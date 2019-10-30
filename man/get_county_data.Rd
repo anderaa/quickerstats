@@ -4,7 +4,8 @@
 \alias{get_county_data}
 \title{A flexible function for pulling county-level data.}
 \usage{
-get_county_data(key, year, data_item, fips = "all", domain = "TOTAL")
+get_county_data(key, year, data_item, fips = "all", domain = "TOTAL",
+  source = "CENSUS")
 }
 \arguments{
 \item{key}{Your NASS API key.}
@@ -18,6 +19,8 @@ search_data_items function to find one.}
 
 \item{domain}{A modifier on data_item, some characterstic (e.g. size
 categories of operations), use 'all' to get all.}
+
+\item{source}{Must be 'CENSUS' or 'SURVEY'.}
 }
 \value{
 A tibble df of the requested data, if any exists. Otherwise returns

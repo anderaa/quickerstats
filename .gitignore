@@ -1,5 +1,6 @@
 # Jupyter files
 notebooks/.ipynb_checkpoints/*
+notebooks/gz*
 
 # History files
 .Rhistory

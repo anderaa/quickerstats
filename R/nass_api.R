@@ -58,6 +58,8 @@ get_param_values <- function(key,
                              year=NA,
                              agg_level_desc=NA) {
 
+  short_desc = gsub('&', '%26', short_desc)
+
   if (!curl::has_internet()) {
     stop('No internet connection!')
   }
@@ -235,6 +237,7 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 #' @param fips Must be 'all', a 2-digit state fips, or a 5-digit county fips.
 #' @param domain A modifier on data_item, some characterstic (e.g. size
 #' categories of operations), use 'all' to get all.
+#' @param source Must be 'CENSUS' or 'SURVEY'.
 #' @return The count of values.
 #' @examples
 #' \donttest{
@@ -248,19 +251,21 @@ search_data_items <- function(key, search_terms, exclude=c()) {
 #'                       fips='08069', domain='all')
 #' }
 #' @export
-get_county_item_count <- function(key, year,
-                                  data_item, fips='all', domain='TOTAL') {
+get_county_item_count <- function(key, year, data_item, fips='all',
+                                  domain='TOTAL', source='CENSUS') {
 
   if (!curl::has_internet()) {
     stop('No internet connection!')
   }
+
+  data_item = gsub('&', '%26', data_item)
 
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
                     '&short_desc=', data_item,
                     '&year__GE=', year,
                     '&agg_level_desc=COUNTY',
-                    '&source_desc=CENSUS',
+                    '&source_desc=', source,
                     sep='')
 
   # add specific domain if needed
@@ -307,6 +312,7 @@ get_county_item_count <- function(key, year,
 #' @param fips Must be 'all', a 2-digit state fips, or a 5-digit county fips.
 #' @param domain A modifier on data_item, some characterstic (e.g. size
 #' categories of operations), use 'all' to get all.
+#' @param source Must be 'CENSUS' or 'SURVEY'.
 #' @return A tibble df of the requested data, if any exists. Otherwise returns
 #' NULL.
 #' @examples
@@ -321,11 +327,14 @@ get_county_item_count <- function(key, year,
 #'                 domain='all')
 #' }
 #' @export
-get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
+get_county_data <- function(key, year, data_item, fips='all',
+                            domain='TOTAL', source='CENSUS') {
 
   if (!curl::has_internet()) {
     stop('No internet connection!')
   }
+
+  data_item = gsub('&', '%26', data_item)
 
   # check if any data exists
   if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
@@ -339,7 +348,7 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
                     '&short_desc=', data_item,
                     '&year__GE=', year,
                     '&agg_level_desc=COUNTY',
-                    '&source_desc=CENSUS',
+                    '&source_desc=', source,
                     '&format=CSV',
                     sep='')
 
@@ -389,6 +398,7 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
 #' @param fips Must be 'all' or a 2-digit state fips.
 #' @param domain A modifier on data_item, some characterstic (e.g. size
 #' categories of operations), use 'all' to get all.
+#' @param source Must be 'CENSUS' or 'SURVEY'.
 #' @return The count of values.
 #' @examples
 #' \donttest{
@@ -399,19 +409,21 @@ get_county_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
 #'                      data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 #' }
 #' @export
-get_state_item_count <- function(key, year, data_item,
-                                 fips='all', domain='TOTAL') {
+get_state_item_count <- function(key, year, data_item, fips='all',
+                                 domain='TOTAL', source='CENSUS') {
 
   if (!curl::has_internet()) {
     stop('No internet connection!')
   }
+
+  data_item = gsub('&', '%26', data_item)
 
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
                     '&short_desc=', data_item,
                     '&year__GE=', year,
                     '&agg_level_desc=STATE',
-                    '&source_desc=CENSUS',
+                    '&source_desc=', source,
                     sep='')
 
   # add specific domain if needed
@@ -450,6 +462,7 @@ get_state_item_count <- function(key, year, data_item,
 #' @param fips Must be 'all' or a 2-digit state fips.
 #' @param domain A modifier on data_item, some characterstic (e.g. size
 #' categories of operations), use 'all' to get all.
+#' @param source Must be 'CENSUS' or 'SURVEY'.
 #' @return A tibble df of the requested data, if any exists. Otherwise returns
 #' NULL.
 #' @examples
@@ -461,11 +474,14 @@ get_state_item_count <- function(key, year, data_item,
 #'                data_item='CORN, GRAIN - ACRES HARVESTED', fips='08')
 #' }
 #' @export
-get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
+get_state_data <- function(key, year, data_item, fips='all',
+                           domain='TOTAL', source='CENSUS') {
 
   if (!curl::has_internet()) {
     stop('No internet connection!')
   }
+
+  data_item = gsub('&', '%26', data_item)
 
   # check if any data exists
   if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
@@ -479,7 +495,7 @@ get_state_data <- function(key, year, data_item, fips='all', domain='TOTAL') {
                     '&short_desc=', data_item,
                     '&year__GE=', year,
                     '&agg_level_desc=STATE',
-                    '&source_desc=CENSUS',
+                    '&source_desc=', source,
                     '&format=CSV',
                     sep='')
 
