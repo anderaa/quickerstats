@@ -81,7 +81,6 @@ get_param_values <- function(key,
   if (!is.na(agg_level_desc)) {
     url <- paste(url, '&agg_level_desc=', agg_level_desc, sep='')
   }
-
   r <- httr::GET(url)
   check_response(r$status)
   items <- httr::content(r)
@@ -377,6 +376,8 @@ get_county_data <- function(key, year, data_item, fips='all',
           county fips')
     return(NULL)
   }
+  print(url)
+
   # make the request
   r <- httr::GET(url)
   check_response(r$status)
