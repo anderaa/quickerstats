@@ -292,6 +292,8 @@ get_county_item_count <- function(key, year, data_item, fips='all',
           county fips')
     return(NULL)
   }
+  print(url)
+
   # make the request
   r <- httr::GET(url)
   check_response(r$status)
@@ -376,7 +378,6 @@ get_county_data <- function(key, year, data_item, fips='all',
           county fips')
     return(NULL)
   }
-  print(url)
 
   # make the request
   r <- httr::GET(url)
