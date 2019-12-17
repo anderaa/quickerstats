@@ -264,7 +264,7 @@ get_county_item_count <- function(key, year, data_item, fips='all',
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
                     '&short_desc=', data_item,
-                    '&year__GE=', year,
+                    '&year=', year,
                     '&agg_level_desc=COUNTY',
                     '&source_desc=', source,
                     sep='')
@@ -294,7 +294,6 @@ get_county_item_count <- function(key, year, data_item, fips='all',
           county fips')
     return(NULL)
   }
-
   # make the request
   r <- httr::GET(url)
   check_response(r$status)
@@ -340,7 +339,7 @@ get_county_data <- function(key, year, data_item, fips='all',
   data_item = gsub(' ', '+', data_item)
 
   # check if any data exists
-  if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
+  if (get_county_item_count(key, year, data_item, fips, domain, source) == 0) {
     print('No data exists for this particular query.
           Try modifying query paramters.')
     return(NULL)
@@ -349,7 +348,7 @@ get_county_data <- function(key, year, data_item, fips='all',
   base_url <- paste('http://quickstats.nass.usda.gov/api/api_GET/?',
                     'key=', key,
                     '&short_desc=', data_item,
-                    '&year__GE=', year,
+                    '&year=', year,
                     '&agg_level_desc=COUNTY',
                     '&source_desc=', source,
                     '&format=CSV',
@@ -425,7 +424,7 @@ get_state_item_count <- function(key, year, data_item, fips='all',
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
                     '&short_desc=', data_item,
-                    '&year__GE=', year,
+                    '&year=', year,
                     '&agg_level_desc=STATE',
                     '&source_desc=', source,
                     sep='')
@@ -489,16 +488,16 @@ get_state_data <- function(key, year, data_item, fips='all',
   data_item = gsub(' ', '+', data_item)
 
   # check if any data exists
-  if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
+  if (get_state_item_count(key, year, data_item, fips, domain, source) == 0) {
     print('No data exists for this particular query.
-          Try modifying query paramters.')
+           Try modifying query paramters.')
     return(NULL)
   }
 
   base_url <- paste('http://quickstats.nass.usda.gov/api/api_GET/?',
                     'key=', key,
                     '&short_desc=', data_item,
-                    '&year__GE=', year,
+                    '&year=', year,
                     '&agg_level_desc=STATE',
                     '&source_desc=', source,
                     '&format=CSV',
