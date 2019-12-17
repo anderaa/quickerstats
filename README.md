@@ -5,11 +5,11 @@ Aaron Anderson, 2019-10-08
 
 ## Introduction
 The USDA's National Agricultural Statistics Service collects a wide variety of
-data on US agriculture. They maintain a web tool (Quick Stats), and an API for 
+data on US agriculture. The agency maintains a web tool (Quick Stats) and an API for 
 accessing the data. While powerful and flexible, both of the existing tools for 
-pulling data can be cumbersome for many users. The goal of quickerstats is to 
-functionality for pulling data that is easier to use. The package does this in 
-two ways:
+pulling data can be cumbersome for many users. The goal of quickerstats is to
+provide functionality for pulling data that is easier to use. The package does 
+this in two ways:
 
 * Provide a search tool. An important parameter of the Quick Stats is 
 'short_desc' (called Data Item in the web tool), which is a concatenation six 
@@ -18,15 +18,15 @@ util_practice_desc, statisticcat_desc, and unit_desc). A typical workflow would
 be to drill down into each of these categories to build the desired short_desc 
 string. The problem is that the available options for each successive parameter 
 depend on the which values have already been chosen. Therefore, it is easiest to 
-simply search the available short_desc strings for what you want. Since there 
+simply search the available short_desc strings for what you want. Because there 
 are so many short_desc options, quickerstats provides a search function so you 
 can find what you want.
 
 * Provide easy to use functions for pulling state and county data. Most users 
-will be pulling state or county-level data. We streamline the workflow by 
-providing functionality for only these two options (using FIPS codes). Users can 
-access  a particular data item for a single state or all states. Additionally, 
-users can access a data item for all counties in the country, all counties in a 
+will be pulling state or county data. We streamline the workflow by providing 
+functionality for only these two options (using FIPS codes). Users can access  
+a particular data item for a single state or all states. Additionally, users 
+can access a data item for all counties in the country, all counties in a 
 state, or a single county.
 
 See: <br/>
