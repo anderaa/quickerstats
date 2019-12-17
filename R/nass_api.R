@@ -339,7 +339,7 @@ get_county_data <- function(key, year, data_item, fips='all',
   data_item = gsub(' ', '+', data_item)
 
   # check if any data exists
-  if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
+  if (get_county_item_count(key, year, data_item, fips, domain, source) == 0) {
     print('No data exists for this particular query.
           Try modifying query paramters.')
     return(NULL)
@@ -488,9 +488,9 @@ get_state_data <- function(key, year, data_item, fips='all',
   data_item = gsub(' ', '+', data_item)
 
   # check if any data exists
-  if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
+  if (get_state_item_count(key, year, data_item, fips, domain, source) == 0) {
     print('No data exists for this particular query.
-          Try modifying query paramters.')
+           Try modifying query paramters.')
     return(NULL)
   }
 
