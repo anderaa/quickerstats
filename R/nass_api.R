@@ -59,6 +59,7 @@ get_param_values <- function(key,
                              agg_level_desc=NA) {
 
   short_desc = gsub('&', '%26', short_desc)
+  short_desc = gsub(' ', '+', short_desc)
 
   if (!curl::has_internet()) {
     stop('No internet connection!')
@@ -258,6 +259,7 @@ get_county_item_count <- function(key, year, data_item, fips='all',
   }
 
   data_item = gsub('&', '%26', data_item)
+  data_item = gsub(' ', '+', data_item)
 
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
@@ -292,7 +294,6 @@ get_county_item_count <- function(key, year, data_item, fips='all',
           county fips')
     return(NULL)
   }
-  print(url)
 
   # make the request
   r <- httr::GET(url)
@@ -308,7 +309,7 @@ get_county_item_count <- function(key, year, data_item, fips='all',
 #'
 #' @param key Your NASS API key.
 #' @param year Must be a census year (e.g. 2012, 2017).
-#' @param data_item The long description of the desired series. Use
+#' @param data_deitem The long description of the desired series. Use
 #' search_data_items function to find one.
 #' @param fips Must be 'all', a 2-digit state fips, or a 5-digit county fips.
 #' @param domain A modifier on data_item, some characterstic (e.g. size
@@ -336,6 +337,7 @@ get_county_data <- function(key, year, data_item, fips='all',
   }
 
   data_item = gsub('&', '%26', data_item)
+  data_item = gsub(' ', '+', data_item)
 
   # check if any data exists
   if (get_county_item_count(key, year, data_item, fips, domain) == 0) {
@@ -378,7 +380,6 @@ get_county_data <- function(key, year, data_item, fips='all',
           county fips')
     return(NULL)
   }
-
   # make the request
   r <- httr::GET(url)
   check_response(r$status)
@@ -419,6 +420,7 @@ get_state_item_count <- function(key, year, data_item, fips='all',
   }
 
   data_item = gsub('&', '%26', data_item)
+  data_item = gsub(' ', '+', data_item)
 
   base_url <- paste('http://quickstats.nass.usda.gov/api/get_counts/?',
                     'key=', key,
@@ -484,6 +486,7 @@ get_state_data <- function(key, year, data_item, fips='all',
   }
 
   data_item = gsub('&', '%26', data_item)
+  data_item = gsub(' ', '+', data_item)
 
   # check if any data exists
   if (get_state_item_count(key, year, data_item, fips, domain) == 0) {
