@@ -1,7 +1,7 @@
 Package: quickerstats
 Type: Package
 Title: An R Client for the NASS Quick Stats API
-Version: 0.0.0.9005
+Version: 0.0.0.9006
 Authors@R: person("Aaron", "Anderson", email = "aaronanderson.co@gmail.com",
     role = c("aut", "cre"))
 Description: This packages provides several convenience functions for searching and pulling data from

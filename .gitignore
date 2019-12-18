@@ -1,6 +1,6 @@
 # Jupyter files
-notebooks/.ipynb_checkpoints/*
-notebooks/gz*
+examples/.ipynb_checkpoints/*
+examples/gz*
 
 # History files
 .Rhistory

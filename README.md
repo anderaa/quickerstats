@@ -11,13 +11,13 @@ pulling data can be cumbersome for many users. The goal of quickerstats is to
 provide functionality for pulling data that is easier to use. The package does 
 this in two ways:
 
-* Provide a search tool. An important parameter of the Quick Stats is 
-'short_desc' (called Data Item in the web tool), which is a concatenation six 
+* Provide a search tool. An important parameter of Quick Stats is 
+'short_desc' (called Data Item in the web tool), which is a concatenation of six 
 other parameters (commodity_desc, class_desc, prodn_practice_desc, 
 util_practice_desc, statisticcat_desc, and unit_desc). A typical workflow would 
 be to drill down into each of these categories to build the desired short_desc 
 string. The problem is that the available options for each successive parameter 
-depend on the which values have already been chosen. Therefore, it is easiest to 
+depend on the values that have already been chosen. Therefore, it is easiest to 
 simply search the available short_desc strings for what you want. Because there 
 are so many short_desc options, quickerstats provides a search function so you 
 can find what you want.
@@ -36,7 +36,7 @@ https://quickstats.nass.usda.gov/api
 ## Installation and setup
 
 ```
-devtools::install_github('anderaa/quickerstats', force=TRUE, build_vignettes=TRUE)
+devtools::install_github('anderaa/quickerstats', force=TRUE, build_vignettes=TRUE, ref="master")
 library('quickerstats')
 ```
 
