@@ -258,6 +258,9 @@ get_county_item_count <- function(key, year, data_item, fips='all',
     stop('No internet connection!')
   }
 
+  domain = gsub('&', '%26', domain)
+  domain = gsub(' ', '+', domain)
+
   data_item = gsub('&', '%26', data_item)
   data_item = gsub(' ', '+', data_item)
 
@@ -334,6 +337,9 @@ get_county_data <- function(key, year, data_item, fips='all',
   if (!curl::has_internet()) {
     stop('No internet connection!')
   }
+
+  domain = gsub('&', '%26', domain)
+  domain = gsub(' ', '+', domain)
 
   data_item = gsub('&', '%26', data_item)
   data_item = gsub(' ', '+', data_item)
@@ -418,6 +424,9 @@ get_state_item_count <- function(key, year, data_item, fips='all',
     stop('No internet connection!')
   }
 
+  domain = gsub('&', '%26', domain)
+  domain = gsub(' ', '+', domain)
+
   data_item = gsub('&', '%26', data_item)
   data_item = gsub(' ', '+', data_item)
 
@@ -484,6 +493,9 @@ get_state_data <- function(key, year, data_item, fips='all',
     stop('No internet connection!')
   }
 
+  domain = gsub('&', '%26', domain)
+  domain = gsub(' ', '+', domain)
+
   data_item = gsub('&', '%26', data_item)
   data_item = gsub(' ', '+', data_item)
 
@@ -525,3 +537,5 @@ get_state_data <- function(key, year, data_item, fips='all',
   return(httr::content(r))
 }
 #-------------------------------------------------------------------------------
+
+
