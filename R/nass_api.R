@@ -456,7 +456,7 @@ get_state_item_count <- function(key, year, data_item, fips='all',
     return(NULL)
   }
   # make the request
-  r <- httr::GET(url)
+  r <- httr::GET(url, httr::verbose())
   check_response(r$status)
   return(httr::content(r)$count)
 }
@@ -532,10 +532,10 @@ get_state_data <- function(key, year, data_item, fips='all',
     stop('The fips argument must be "all" or a 2-digit state fips')
   }
   # make the request
-  r <- httr::GET(url)
+  r <- httr::GET(url, httr::verbose())
   check_response(r$status)
   return(httr::content(r))
 }
 #-------------------------------------------------------------------------------
 
-
+# df_corn_sweet_nonirrigated <- get_state_data(key = key, year = 2013, data_item = "CORN, GRAIN, NON-IRRIGATED - YIELD, MEASURED IN BU / ACRE",source = "CENSUS", domain = "IRRIGATION STATUS", fips = 'all')
