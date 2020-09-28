@@ -311,7 +311,7 @@ get_county_item_count <- function(key, year, data_item, fips='all',
 #'
 #' @param key Your NASS API key.
 #' @param year Must be a census year (e.g. 2012, 2017).
-#' @param data_deitem The long description of the desired series. Use
+#' @param data_item The long description of the desired series. Use
 #' search_data_items function to find one.
 #' @param fips Must be 'all', a 2-digit state fips, or a 5-digit county fips.
 #' @param domain A modifier on data_item, some characterstic (e.g. size
