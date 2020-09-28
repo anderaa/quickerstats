@@ -5,8 +5,14 @@
 \title{Get the count of values that exist for the specified query for county-level
 data.}
 \usage{
-get_county_item_count(key, year, data_item, fips = "all",
-  domain = "TOTAL", source = "CENSUS")
+get_county_item_count(
+  key,
+  year,
+  data_item,
+  fips = "all",
+  domain = "TOTAL",
+  source = "CENSUS"
+)
 }
 \arguments{
 \item{key}{Your NASS API key.}

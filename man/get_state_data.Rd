@@ -4,8 +4,14 @@
 \alias{get_state_data}
 \title{A flexible function for pulling state-level data.}
 \usage{
-get_state_data(key, year, data_item, fips = "all", domain = "TOTAL",
-  source = "CENSUS")
+get_state_data(
+  key,
+  year,
+  data_item,
+  fips = "all",
+  domain = "TOTAL",
+  source = "CENSUS"
+)
 }
 \arguments{
 \item{key}{Your NASS API key.}
