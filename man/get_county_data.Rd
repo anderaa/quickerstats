@@ -4,8 +4,14 @@
 \alias{get_county_data}
 \title{A flexible function for pulling county-level data.}
 \usage{
-get_county_data(key, year, data_item, fips = "all", domain = "TOTAL",
-  source = "CENSUS")
+get_county_data(
+  key,
+  year,
+  data_item,
+  fips = "all",
+  domain = "TOTAL",
+  source = "CENSUS"
+)
 }
 \arguments{
 \item{key}{Your NASS API key.}
