@@ -4,8 +4,14 @@
 \alias{get_param_values}
 \title{Get all values a parameter can take.}
 \usage{
-get_param_values(key, param, short_desc = NA, source_desc = NA,
-  year = NA, agg_level_desc = NA)
+get_param_values(
+  key,
+  param,
+  short_desc = NA,
+  source_desc = NA,
+  year = NA,
+  agg_level_desc = NA
+)
 }
 \arguments{
 \item{key}{Your NASS api key.}
