@@ -1,7 +1,7 @@
 Package: quickerstats
 Type: Package
 Title: An R Client for the NASS Quick Stats API
-Version: 0.0.0.9008
+Version: 0.0.1
 Authors@R: person("Aaron", "Anderson", email = "aaronanderson.co@gmail.com",
     role = c("aut", "cre"))
 Description: This packages provides several convenience functions for searching and pulling data from
@@ -16,7 +16,7 @@ Imports:
     curl (>= 4.2.0),
     tibble (>= 2.1.3)
 BugReports: https://github.com/anderaa/quickerstats/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown,
