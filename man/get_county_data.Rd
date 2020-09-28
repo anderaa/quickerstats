@@ -18,15 +18,15 @@ get_county_data(
 
 \item{year}{Must be a census year (e.g. 2012, 2017).}
 
+\item{data_item}{The long description of the desired series. Use
+search_data_items function to find one.}
+
 \item{fips}{Must be 'all', a 2-digit state fips, or a 5-digit county fips.}
 
 \item{domain}{A modifier on data_item, some characterstic (e.g. size
 categories of operations), use 'all' to get all.}
 
 \item{source}{Must be 'CENSUS' or 'SURVEY'.}
-
-\item{data_deitem}{The long description of the desired series. Use
-search_data_items function to find one.}
 }
 \value{
 A tibble df of the requested data, if any exists. Otherwise returns
