@@ -1,12 +1,12 @@
 Package: quickerstats
 Type: Package
-Title: An R Client for the NASS Quick Stats API
+Title: An R Client for the USDA NASS Quick Stats API
 Version: 0.0.1
 Authors@R: person("Aaron", "Anderson", email = "aaronanderson.co@gmail.com",
     role = c("aut", "cre"))
 Description: This package provides several convenience functions for searching and pulling data from
-    the NASS Quick Stats API. Users can easily search for specific data items, and then download 
-    county-level or state-level Census of Agricultural data from a specified year.
+    the USDA NASS Quick Stats API. Users can easily search for specific data items, and then 
+    download county-level or state-level Census of Agricultural data from a specified year.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
