@@ -35,6 +35,13 @@ https://quickstats.nass.usda.gov/api
 
 ## Installation and setup
 
+To install from CRAN:
+```
+install.packages('quickerstats')
+library('quickerstats')
+```
+
+Alternatively, the package can be installed directly from this repository:
 ```
 devtools::install_github('anderaa/quickerstats', force=TRUE, build_vignettes=TRUE, ref="master")
 library('quickerstats')
